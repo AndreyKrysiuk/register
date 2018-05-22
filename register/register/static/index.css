@@ -189,3 +189,40 @@ body{
 .open_item_applicants td {
     cursor: pointer;
 }
+
+.knopka {
+
+  background-color: #214371;
+    border-radius: 4px;
+    border-color: yellow;
+    outline: 4px;
+    color: white;
+    padding: 6px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+
+    margin: 4px 2px;
+    cursor: pointer;
+
+    color: #fff; /* цвет текста */
+}
+.knopka:hover { border-color: red; } /* при наведении курсора мышки */
+.knopka:active { border-color: black; } /* при нажатии */
+
+
+.blockLogin {
+ margin:0 auto;
+ border-radius: 6px;
+ margin-top: 30px;
+
+ background: #214371;
+width: 250px;
+
+ padding: 8px;
+}
+
+  .parentBlock{
+    margin-top: 6%;
+
+  }
