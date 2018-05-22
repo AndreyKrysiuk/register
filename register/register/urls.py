@@ -34,5 +34,6 @@ urlpatterns = [
     url(r'^data/$', views.data_about_checking),
     url(r'^public_council/$', views.public_council),
     url(r'^public_council_links/$', views.public_council_links),
-    url(r'^register/$', views.register)
+    url(r'^register/$', views.register),
+    url(r'^login/$', views.login)
 ]

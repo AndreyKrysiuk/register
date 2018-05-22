@@ -60,5 +60,12 @@ def public_council_links(request):
 
 
 def register(request):
+<<<<<<< HEAD
     User.addNewUser("adminbleat", "admin")
     return render(request, 'register.html')
+=======
+    return render(request, 'register.html')
+
+def login(request):
+    return render(request, 'login.html')
+>>>>>>> origin/master
