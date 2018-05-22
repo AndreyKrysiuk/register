@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from register.Schemas import User
 
 
 def home(request):
@@ -59,4 +60,5 @@ def public_council_links(request):
 
 
 def register(request):
+    User.addNewUser("adminbleat", "admin")
     return render(request, 'register.html')
