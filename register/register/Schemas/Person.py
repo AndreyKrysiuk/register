@@ -3,11 +3,12 @@ from mongoengine import *
 
 class Person(Document):
     name = StringField(required=True, max_length=60)
-    cathegory = StringField(max_length=120)
+    category = StringField(max_length=120)
     job = StringField(max_length=120)
     position = StringField(max_length=120)
     region = StringField(max_length=60)
     isPretender = BooleanField(required=True)
+
 
 def add_new_person(name, category, job, position, region, isPretender):
     person = Person()
@@ -26,8 +27,7 @@ def add_new_person(name, category, job, position, region, isPretender):
 
 
 def update_person(id, name, category, job, position, region, isPretender):
-
-    person = Person.objects(_id=id)[0]
+    person = Person.objects(id=id)[0]
     if person is None:
         return -1
 
@@ -38,7 +38,7 @@ def update_person(id, name, category, job, position, region, isPretender):
     person.update(**{"set__region": region})
 
     if isPretender is not None:
-        user.update(**{"set__isPretender": isPretender})
+        person.update(**{"set__isPretender": isPretender})
     return 0
 
 
@@ -52,18 +52,23 @@ def delete_person(id):
 
 
 def get_person(id):
-    person = Person.objects(_id=id)
+    person = Person.objects.get(id=id)
     if person is None:
         return -1
     else:
-        return person
+        return person[0]
 
 
 def get_all_persons():
     return Person.objects()
 
+
 def add_new_person(name, category, job, position, region, isPretender=False):
     person = Person()
+
+    exists = Person.objects(name=name, category=category, job=job, position=position, region=region, isPretender=isPretender)
+    if exists is not None:
+        return exists.id
 
     person.name = name
     person.category = category
@@ -124,3 +129,6 @@ def get_person(id):
 def get_all_persons():
     return Person.objects()
 
+
+def get_officials():
+    return Person.objects(isPretender=False)

@@ -3,7 +3,7 @@ from register.Schemas import Person
 
 
 class Checking(Document):
-    person_id = ReferenceField(Person)
+    person_id = ReferenceField('Person')
     solution = StringField(max_length=240)
     date_accept_ban = StringField()
     date_refuse_ban = StringField()
@@ -12,7 +12,12 @@ class Checking(Document):
 
 def add_new_checking(person, solution, resolution='-', date_refuse_ban='-',  date_accept_ban='-'):
     checking = Checking()
-    if (person is None) or (person is not Person):
+
+    exists = Checking.objects(person=person, solution=solution, resolution=resolution, date_refuse_ban=date_refuse_ban, date_accept_ban=date_accept_ban)
+    if exists is not None:
+        return exists.id
+
+    if person is None:
         return -1
     else:
         checking.person_id = person
@@ -51,16 +56,16 @@ def update_checking(this_id, solution, resolution, date_refuse_ban, date_accept_
     if checking is not None:
         return -1
     if solution is not None:
-        checking.update(**{"set__solution" : solution})
+        checking.update(**{"set__solution": solution})
 
     if resolution is not None:
-        checking.update(**{"set__resolution" : resolution})
+        checking.update(**{"set__resolution": resolution})
 
     if date_accept_ban is not None:
-        checking.update(**{"set__date_refuse_ban" : date_refuse_ban})
+        checking.update(**{"set__date_refuse_ban": date_refuse_ban})
 
     if date_refuse_ban is not None:
-        checking.update(**{"set__date_accept_ban" : date_accept_ban})
+        checking.update(**{"set__date_accept_ban": date_accept_ban})
 
     return 0
 
@@ -72,5 +77,3 @@ def delete_checking(this_id):
         return 0
     else:
         return -1
-
-
