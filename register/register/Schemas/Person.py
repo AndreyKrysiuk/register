@@ -9,11 +9,12 @@ class Person(Document):
     region = StringField(max_length=60)
     isPretender = BooleanField(required=True)
 
+
 def add_new_person(name, category, job, position, region, isPretender):
     person = Person()
 
     person.name = name
-    person.category = category
+    person.cathegory = category
     person.job = job
     person.position = position
     person.region = region
@@ -26,7 +27,6 @@ def add_new_person(name, category, job, position, region, isPretender):
 
 
 def update_person(id, name, category, job, position, region, isPretender):
-
     person = Person.objects(_id=id)[0]
     if person is None:
         return -1
@@ -62,6 +62,7 @@ def get_person(id):
 def get_all_persons():
     return Person.objects()
 
+
 def add_new_person(name, category, job, position, region, isPretender=False):
     person = Person()
 
@@ -79,7 +80,6 @@ def add_new_person(name, category, job, position, region, isPretender=False):
 
 
 def update_person(id, name, category, job, position, region, isPretender=False):
-
     person = Person.objects(id=id)[0]
     if person is None:
         return -1
@@ -123,4 +123,3 @@ def get_person(id):
 
 def get_all_persons():
     return Person.objects()
-
