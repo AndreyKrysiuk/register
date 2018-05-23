@@ -82,7 +82,7 @@
             <div class="tab-content">
                 <div id="home" class="tab-pane fade in active">
                     <p>Шо то хуйня.</p>
-                     <!-- тута форма на адд мудня -->
+                     <!-- тута содержимое дива -->
                     <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Додати запис</button>
 
                     <div class="modal fade" id="myModal" role="dialog">
@@ -101,17 +101,22 @@
           			                ПІБ:<br>
                                    <input type='text'  name='name' class="myinput" id="name" /><br><br>
                                    Категорія ограну перевірки:<br>
+<<<<<<< HEAD
                                    <input type='text'  name='category' class="myinput" id="category" /><br><br>
                                    Посада:<br>
+=======
+                                   <input type='text'  name='cathegory' class="myinput" id="cathegory" /><br><br>
+                                   Назва органу перевірки:<br>
+>>>>>>> origin/master
                                    <input type='text'  name='job' class="myinput" id="job" /><br><br>
-                                   position Хз что єто, но оно есть в модели:<br>
+                                   Посада:<br>
                                    <input type='text'  name='position' class="myinput" id="position" /><br><br>
                                    Регіон:<br>
                                    <input type='text'  name='region' class="myinput" id="region" /><br><br>
 
                                    <input type='hidden'  name='isPretender' class="myinput" id="isPretender" value="False" />
 
-                                   solution Опять хз что єто, но оно есть в модели:<br>
+                                   Реквізити рішення про проведення перевірки:<br>
                                    <input type='text'  name='solution' class="myinput" id="solution" /><br><br>
                                     Дата подання Заяви про застосування заборон, визначених законом:<br>
                                    <input type='text'  name='date_accept_ban' class="myinput" id="date_accept_ban" /><br><br>
@@ -122,8 +127,6 @@
                                    <input type='text'  name='resolution' class="myinput" id="resolution" /><br><br>
 
           			                <input type="submit"  value='Додати' /><br>
-
-
           		                </form>
                             </div>
                             <div class="modal-footer">
@@ -149,85 +152,131 @@
                         </tr>
                         </thead>
                         <tbody>
-
+                         {% for d in checking_d %}
                         <tr class="open_item_acting">
                             <td class="text-right">Тут номер по порядку</td>
-                            <td>Тут область</td>
-                            <td>Тут название органа проверки </td>
-                            <td>Тут пиб</td>
-                            <td>Тут должность и все это в цыкле  </td>
+                            <td>{{ d.person.region }}</td>
+                            <td>{{ d.person.job }}</td>
+                            <td>{{ d.person.name }}</td>
+                            <td>{{ d.person.position }}  </td>
                             <td>
                                 <button type="button" class="button" data-toggle="modal" data-target="#myModal">Редагувати</button>
 
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+                                <!-- Modal -->
+                                <div id="myModal" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Редагування</h4>
-      </div>
-      <div class="modal-body">
-       <form action='/admin_checking/update/тут должен быть id'  method='POST'  id="rForm">
+                                     <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Редагування</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                            <form action='/admin_checking/update/{{ d.id }}'  method='POST'  id="rForm">
                                             {% csrf_token %}
           			                        ПІБ:<br>
-                                            <input type='text'  name='name' class="myinput" id="name" value="Здесь должно быть текущее значение"/><br><br>
+                                            <input type='text'  name='name' class="myinput" id="name" value="{{ d.person.name }}"/><br><br>
                                             Категорія ограну перевірки:<br>
-                                            <input type='text'  name='cathegory' class="myinput" id="cathegory" value="Здесь должно быть текущее значение"/><br><br>
+                                            <input type='text'  name='cathegory' class="myinput" id="cathegory" value="{{ d.person.cathegory }}"/><br><br>
+                                            Назва органу перевірки:<br>
+                                            <input type='text'  name='job' class="myinput" id="job" value="{{ d.person.job }}"/><br><br>
                                             Посада:<br>
-                                            <input type='text'  name='job' class="myinput" id="job" value="Здесь должно быть текущее значение"/><br><br>
-                                            position Хз что єто, но оно есть в модели:<br>
-                                            <input type='text'  name='position' class="myinput" id="position" value="Здесь должно быть текущее значение"/><br><br>
+                                            <input type='text'  name='position' class="myinput" id="position" value="{{ d.person.position }}"/><br><br>
                                             Регіон:<br>
-                                            <input type='text'  name='region' class="myinput" id="region" value="Здесь должно быть текущее значение"/><br><br>
-
+                                            <input type='text'  name='region' class="myinput" id="region" value="{{ d.person.region }}"/><br><br>
                                             <input type='hidden'  name='isPretender' class="myinput" id="isPretender" value="False" />
-
-                                            solution Опять хз что єто, но оно есть в модели:<br>
-                                            <input type='text'  name='solution' class="myinput" id="solution" value="Здесь должно быть текущее значение"/><br><br>
+                                            Реквізити рішення про проведення перевірки:<br>
+                                            <input type='text'  name='solution' class="myinput" id="solution" value="{{ d.solution }}"/><br><br>
                                              Дата подання Заяви про застосування заборон, визначених законом:<br>
-                                            <input type='text'  name='date_accept_ban' class="myinput" id="date_accept_ban" value="Здесь должно быть текущее значение"/><br><br>
+                                            <input type='text'  name='date_accept_ban' class="myinput" id="date_accept_ban" value="{{ d.date_accept_ban }}"/><br><br>
                                             Дата подання Заяви про не застосування заборон, визначених законом:<br>
-                                            <input type='text'  name='date_refuse_ban' class="myinput" id="date_refuse_ban" value="Здесь должно быть текущее значение"/><br><br>
+                                            <input type='text'  name='date_refuse_ban' class="myinput" id="date_refuse_ban" value="{{ d.date_refuse_ban }}"/><br><br>
 
                                             Висновок про результати перевірки:<br>
-                                            <input type='text'  name='resolution' class="myinput" id="resolution" value="Здесь должно быть текущее значение"/><br><br>
+                                            <input type='text'  name='resolution' class="myinput" id="resolution" value="{{ d.resolution }}"/><br><br>
 
           			                        <input type="submit"  value='Змінити' /><br>
           		                            </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
-      </div>
-    </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
+                                            </div>
+                                        </div>
 
-  </div>
-</div>
-
-                                    <form action="/admin_checking/delete/сюда надо вписать текущий айди" method="POST" id="delForm">
-                                        {% csrf_token %}
-                                        <button type="button submit" class="btn btn-default">Видалити</button>
-                                    </form>
+                                    </div>
                                 </div>
+
+                                <form action="/admin_checking/delete/{{ d.id }}" method="POST" id="delForm">
+                                    {% csrf_token %}
+                                    <button type="button submit" class="btn btn-default">Видалити</button>
+                                </form>
+
                             </td>
                         </tr>
+                    {% endfor %}
                         </tbody>
                     </table>
-                        </div>
+                </div>
 
                 </div>
-                 <!-- тута ее больше нет -->
-            </div>
 
+            </div>
+              <!-- тута его больше нет -->
                 </div>
                 <div id="menu1" class="tab-pane fade">
                     <p>Шо это хуйня.</p>
+
+                    <!-- тута содержимое дива -->
+                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Додати запис</button>
+
+                    <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Додання нового запису</h4>
+                                </div>
+                            <div class="modal-body">
+                               <form action='/admin_checking/'  method='POST'  id="rForm">
+                                   {% csrf_token %}
+
+          			                ПІБ:<br>
+                                   <input type='text'  name='name' class="myinput" id="name" /><br><br>
+                                   Категорія ограну перевірки:<br>
+                                   <input type='text'  name='cathegory' class="myinput" id="cathegory" /><br><br>
+                                   Назва органу перевірки:<br>
+                                   <input type='text'  name='job' class="myinput" id="job" /><br><br>
+                                   Посада:<br>
+                                   <input type='text'  name='position' class="myinput" id="position" /><br><br>
+                                   Регіон:<br>
+                                   <input type='text'  name='region' class="myinput" id="region" /><br><br>
+
+                                   <input type='hidden'  name='isPretender' class="myinput" id="isPretender" value="True" />
+
+                                   Реквізити рішення про проведення перевірки:<br>
+                                   <input type='text'  name='solution' class="myinput" id="solution" /><br><br>
+                                    Дата подання Заяви про застосування заборон, визначених законом:<br>
+                                   <input type='text'  name='date_accept_ban' class="myinput" id="date_accept_ban" /><br><br>
+                                    Дата подання Заяви про не застосування заборон, визначених законом:<br>
+                                   <input type='text'  name='date_refuse_ban' class="myinput" id="date_refuse_ban" /><br><br>
+
+                                    Висновок про результати перевірки:<br>
+                                   <input type='text'  name='resolution' class="myinput" id="resolution" /><br><br>
+
+          			                <input type="submit"  value='Додати' /><br>
+          		                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
+                            </div>
+                    </div>
                 </div>
             </div>
-        </div>
-            <!--<div class="tab-content">
+                    <!-- тута таблица -->
+                    <div class="tab-content">
                 <div class="tab-pane active" id="acting"><br>
 
                     <div id = "acting2">
@@ -235,28 +284,89 @@
                         <thead>
                         <tr>
                             <th></th>
-                            <th width="20%">Регіон</th>
+                            <th width="15%">Регіон</th>
                             <th width="20%">Назва органу перевірки</th>
-                            <th width="35%">ПІБ особи, щодо якої здійснюється перевірка</th>
+                            <th width="30%">ПІБ особи, щодо якої здійснюється перевірка</th>
                             <th width="25%">Посада</th>
+                            <th width="10%"></th>
                         </tr>
                         </thead>
                         <tbody>
-
+                         {% int i =0; for d in checking_p %}
                         <tr class="open_item_acting">
-                            <td class="text-right">Тут номер по порядку</td>
-                            <td>Тут область</td>
-                            <td>Тут название органа проверки </td>
-                            <td>Тут пиб</td>
-                            <td>Тут должность и все это в цыкле  </td>
+                            <td class="text-right">{{ i }}</td>
+                            <td>{{ d.person.region }}</td>
+                            <td>{{ d.person.job }}</td>
+                            <td>{{ d.person.name }}</td>
+                            <td>{{ d.person.position }}  </td>
+                            <td>
+                                <button type="button" class="button" data-toggle="modal" data-target="#myModal">Редагувати</button>
+
+                                <!-- Modal -->
+                                <div id="myModal" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+
+                                     <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Редагування</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                            <form action='/admin_checking/update/{{ d.id }}'  method='POST'  id="rForm">
+                                            {% csrf_token %}
+          			                        ПІБ:<br>
+                                            <input type='text'  name='name' class="myinput" id="name" value="{{ d.person.name }}"/><br><br>
+                                            Категорія ограну перевірки:<br>
+                                            <input type='text'  name='cathegory' class="myinput" id="cathegory" value="{{ d.person.cathegory }}"/><br><br>
+                                            Назва органу перевірки:<br>
+                                            <input type='text'  name='job' class="myinput" id="job" value="{{ d.person.job }}"/><br><br>
+                                            Посада:<br>
+                                            <input type='text'  name='position' class="myinput" id="position" value="{{ d.person.position }}"/><br><br>
+                                            Регіон:<br>
+                                            <input type='text'  name='region' class="myinput" id="region" value="{{ d.person.region }}"/><br><br>
+                                            <input type='hidden'  name='isPretender' class="myinput" id="isPretender" value="True" />
+                                            Реквізити рішення про проведення перевірки:<br>
+                                            <input type='text'  name='solution' class="myinput" id="solution" value="{{ d.solution }}"/><br><br>
+                                             Дата подання Заяви про застосування заборон, визначених законом:<br>
+                                            <input type='text'  name='date_accept_ban' class="myinput" id="date_accept_ban" value="{{ d.date_accept_ban }}"/><br><br>
+                                            Дата подання Заяви про не застосування заборон, визначених законом:<br>
+                                            <input type='text'  name='date_refuse_ban' class="myinput" id="date_refuse_ban" value="{{ d.date_refuse_ban }}"/><br><br>
+
+                                            Висновок про результати перевірки:<br>
+                                            <input type='text'  name='resolution' class="myinput" id="resolution" value="{{ d.resolution }}"/><br><br>
+
+          			                        <input type="submit"  value='Змінити' /><br>
+          		                            </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <form action="/admin_checking/delete/{{ d.id }}" method="POST" id="delForm">
+                                    {% csrf_token %}
+                                    <button type="button submit" class="btn btn-default">Видалити</button>
+                                </form>
+
+                            </td>
                         </tr>
+                    {% i++ ; endfor %}
                         </tbody>
                     </table>
-                        </div>
+                </div>
 
                 </div>
 
-            </div>-->
+            </div>
+              <!-- тута его больше нет -->
+                </div>
+            </div>
+        </div>
+
         </div>
     </div>
 </div>

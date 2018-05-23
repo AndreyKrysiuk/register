@@ -14,7 +14,7 @@ def add_new_person(name, category, job, position, region, isPretender):
     person = Person()
 
     person.name = name
-    person.category = category
+    person.cathegory = category
     person.job = job
     person.position = position
     person.region = region
@@ -27,7 +27,11 @@ def add_new_person(name, category, job, position, region, isPretender):
 
 
 def update_person(id, name, category, job, position, region, isPretender):
+<<<<<<< HEAD
     person = Person.objects(id=id)[0]
+=======
+    person = Person.objects(_id=id)[0]
+>>>>>>> origin/master
     if person is None:
         return -1
 
@@ -84,7 +88,6 @@ def add_new_person(name, category, job, position, region, isPretender=False):
 
 
 def update_person(id, name, category, job, position, region, isPretender=False):
-
     person = Person.objects(id=id)[0]
     if person is None:
         return -1
@@ -128,7 +131,10 @@ def get_person(id):
 
 def get_all_persons():
     return Person.objects()
+<<<<<<< HEAD
 
 
 def get_officials():
     return Person.objects(isPretender=False)
+=======
+>>>>>>> origin/master
