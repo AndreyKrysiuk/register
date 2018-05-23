@@ -1,0 +1,266 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Реалізація Закону України "Про очищення влади"</title>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=PT+Serif' rel='stylesheet' type='text/css'>
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	 <link rel="stylesheet" href="{%static "index.css"%}">
+
+    <link rel="stylesheet" href="https://lustration.minjust.gov.ua/css/bootstrap.min.2.css">
+	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+
+
+</head>
+
+<body>
+<div class="head-container" back>
+
+	<div class="la-anim-6">
+		<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="500" height="500" viewbox="0 0 500 500">
+			<path id="la-anim-6-border" transform="translate(250, 250)"/>
+			<path id="la-anim-6-loader" transform="translate(250, 250) scale(0.9)"/>
+		</svg>
+	</div>
+
+    <div class="container white" style="position: relative;">
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="68"><img src="{% static "sources/logo2.png" %}" style="float: left; padding: 20px 10px 10px;"></td>
+
+                <td style="padding: 10px 10px 10px 40px;">
+                    <span style="color: white; ">
+                    <h4> Міністерство юстиції України</h4>
+                    <h2>Очищення влади України </h2>
+                    <h4>Не офіційний веб-сайт</h4>
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<div class="container" style="margin-top: 15px;">
+    <div class="bs-component">
+        <div class="navbar navbar-inverse">
+
+            <div class="navbar-collapse collapse navbar-inverse-collapse">
+                <ul class="nav navbar-nav">
+
+                    <li class = "active"><a href="/admin_register">Перевірки</a></li>
+                    <li ><a href="/admin_register">Реєстр</a></li>
+
+					<li><a href='/admin_users'>Користувачі</a></li>
+				</ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+<div class="container">
+    <div class="panel panel-default">
+
+        <div class="panel-body">
+
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#home">Діючий чиновник</a></li>
+                <li><a data-toggle="tab" href="#menu1">Претендент / Призначений</a></li>
+            </ul>
+
+
+            <div class="tab-content">
+                <div id="home" class="tab-pane fade in active">
+                    <p>Шо то хуйня.</p>
+                     <!-- тута форма на адд мудня -->
+                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Додати запис</button>
+
+                    <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Додання нового запису</h4>
+                                </div>
+                            <div class="modal-body">
+                               <form action='/admin_checking/'  method='POST'  id="rForm">
+                                   {% csrf_token %}
+
+          			                ПІБ:<br>
+                                   <input type='text'  name='name' class="myinput" id="name" /><br><br>
+                                   Категорія ограну перевірки:<br>
+                                   <input type='text'  name='cathegory' class="myinput" id="cathegory" /><br><br>
+                                   Посада:<br>
+                                   <input type='text'  name='job' class="myinput" id="job" /><br><br>
+                                   position Хз что єто, но оно есть в модели:<br>
+                                   <input type='text'  name='position' class="myinput" id="position" /><br><br>
+                                   Регіон:<br>
+                                   <input type='text'  name='region' class="myinput" id="region" /><br><br>
+
+                                   <input type='hidden'  name='isPretender' class="myinput" id="isPretender" value="False" />
+
+                                   solution Опять хз что єто, но оно есть в модели:<br>
+                                   <input type='text'  name='solution' class="myinput" id="solution" /><br><br>
+                                    Дата подання Заяви про застосування заборон, визначених законом:<br>
+                                   <input type='text'  name='date_accept_ban' class="myinput" id="date_accept_ban" /><br><br>
+                                    Дата подання Заяви про не застосування заборон, визначених законом:<br>
+                                   <input type='text'  name='date_refuse_ban' class="myinput" id="date_refuse_ban" /><br><br>
+
+                                    Висновок про результати перевірки:<br>
+                                   <input type='text'  name='resolution' class="myinput" id="resolution" /><br><br>
+
+          			                <input type="submit"  value='Додати' /><br>
+
+
+          		                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
+                            </div>
+                    </div>
+                </div>
+            </div>
+                    <!-- тута таблица -->
+                    <div class="tab-content">
+                <div class="tab-pane active" id="acting"><br>
+
+                    <div id = "acting2">
+                    <table class="table" id="table-search">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th width="15%">Регіон</th>
+                            <th width="20%">Назва органу перевірки</th>
+                            <th width="30%">ПІБ особи, щодо якої здійснюється перевірка</th>
+                            <th width="25%">Посада</th>
+                            <th width="10%"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr class="open_item_acting">
+                            <td class="text-right">Тут номер по порядку</td>
+                            <td>Тут область</td>
+                            <td>Тут название органа проверки </td>
+                            <td>Тут пиб</td>
+                            <td>Тут должность и все это в цыкле  </td>
+                            <td>
+                                <button type="button" class="button" data-toggle="modal" data-target="#myModal">Редагувати</button>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Редагування</h4>
+      </div>
+      <div class="modal-body">
+       <form action='/admin_checking/update/тут должен быть id'  method='POST'  id="rForm">
+                                            {% csrf_token %}
+          			                        ПІБ:<br>
+                                            <input type='text'  name='name' class="myinput" id="name" value="Здесь должно быть текущее значение"/><br><br>
+                                            Категорія ограну перевірки:<br>
+                                            <input type='text'  name='cathegory' class="myinput" id="cathegory" value="Здесь должно быть текущее значение"/><br><br>
+                                            Посада:<br>
+                                            <input type='text'  name='job' class="myinput" id="job" value="Здесь должно быть текущее значение"/><br><br>
+                                            position Хз что єто, но оно есть в модели:<br>
+                                            <input type='text'  name='position' class="myinput" id="position" value="Здесь должно быть текущее значение"/><br><br>
+                                            Регіон:<br>
+                                            <input type='text'  name='region' class="myinput" id="region" value="Здесь должно быть текущее значение"/><br><br>
+
+                                            <input type='hidden'  name='isPretender' class="myinput" id="isPretender" value="False" />
+
+                                            solution Опять хз что єто, но оно есть в модели:<br>
+                                            <input type='text'  name='solution' class="myinput" id="solution" value="Здесь должно быть текущее значение"/><br><br>
+                                             Дата подання Заяви про застосування заборон, визначених законом:<br>
+                                            <input type='text'  name='date_accept_ban' class="myinput" id="date_accept_ban" value="Здесь должно быть текущее значение"/><br><br>
+                                            Дата подання Заяви про не застосування заборон, визначених законом:<br>
+                                            <input type='text'  name='date_refuse_ban' class="myinput" id="date_refuse_ban" value="Здесь должно быть текущее значение"/><br><br>
+
+                                            Висновок про результати перевірки:<br>
+                                            <input type='text'  name='resolution' class="myinput" id="resolution" value="Здесь должно быть текущее значение"/><br><br>
+
+          			                        <input type="submit"  value='Змінити' /><br>
+          		                            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+                                    <form action="/admin_checking/delete/сюда надо вписать текущий айди" method="POST" id="delForm">
+                                        {% csrf_token %}
+                                        <button type="button submit" class="btn btn-default">Видалити</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                        </div>
+
+                </div>
+                 <!-- тута ее больше нет -->
+            </div>
+
+                </div>
+                <div id="menu1" class="tab-pane fade">
+                    <p>Шо это хуйня.</p>
+                </div>
+            </div>
+        </div>
+            <!--<div class="tab-content">
+                <div class="tab-pane active" id="acting"><br>
+
+                    <div id = "acting2">
+                    <table class="table" id="table-search">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th width="20%">Регіон</th>
+                            <th width="20%">Назва органу перевірки</th>
+                            <th width="35%">ПІБ особи, щодо якої здійснюється перевірка</th>
+                            <th width="25%">Посада</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr class="open_item_acting">
+                            <td class="text-right">Тут номер по порядку</td>
+                            <td>Тут область</td>
+                            <td>Тут название органа проверки </td>
+                            <td>Тут пиб</td>
+                            <td>Тут должность и все это в цыкле  </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                        </div>
+
+                </div>
+
+            </div>-->
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

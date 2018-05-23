@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from register.Schemas import User
 
+
 def home(request):
     return render(request, 'register.html')
 
@@ -71,3 +72,7 @@ def login(request):
         print(password)
 
         return render(request, 'register.html')
+
+
+def admin_checking(request):
+    return render(request, 'admin_checking.html')
