@@ -101,13 +101,8 @@
           			                ПІБ:<br>
                                    <input type='text'  name='name' class="myinput" id="name" /><br><br>
                                    Категорія ограну перевірки:<br>
-<<<<<<< HEAD
-                                   <input type='text'  name='category' class="myinput" id="category" /><br><br>
-                                   Посада:<br>
-=======
                                    <input type='text'  name='cathegory' class="myinput" id="cathegory" /><br><br>
                                    Назва органу перевірки:<br>
->>>>>>> origin/master
                                    <input type='text'  name='job' class="myinput" id="job" /><br><br>
                                    Посада:<br>
                                    <input type='text'  name='position' class="myinput" id="position" /><br><br>
@@ -152,9 +147,10 @@
                         </tr>
                         </thead>
                         <tbody>
+
                          {% for d in checking_d %}
                         <tr class="open_item_acting">
-                            <td class="text-right">Тут номер по порядку</td>
+                            <td class="text-right"></td>
                             <td>{{ d.person.region }}</td>
                             <td>{{ d.person.job }}</td>
                             <td>{{ d.person.name }}</td>
@@ -214,6 +210,7 @@
 
                             </td>
                         </tr>
+
                     {% endfor %}
                         </tbody>
                     </table>
@@ -292,9 +289,9 @@
                         </tr>
                         </thead>
                         <tbody>
-                         {% int i =0; for d in checking_p %}
+                         {%  for d in checking_p %}
                         <tr class="open_item_acting">
-                            <td class="text-right">{{ i }}</td>
+                            <td class="text-right"></td>
                             <td>{{ d.person.region }}</td>
                             <td>{{ d.person.job }}</td>
                             <td>{{ d.person.name }}</td>
@@ -354,7 +351,7 @@
 
                             </td>
                         </tr>
-                    {% i++ ; endfor %}
+                    {%  endfor %}
                         </tbody>
                     </table>
                 </div>
