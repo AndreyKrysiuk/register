@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-
+from register.Schemas import User
 
 def home(request):
     return render(request, 'register.html')
