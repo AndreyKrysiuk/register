@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from register.Schemas import User
 
 
 def home(request):
@@ -60,12 +59,15 @@ def public_council_links(request):
 
 
 def register(request):
-<<<<<<< HEAD
-    User.addNewUser("adminbleat", "admin")
-    return render(request, 'register.html')
-=======
     return render(request, 'register.html')
 
 def login(request):
-    return render(request, 'login.html')
->>>>>>> origin/master
+    if request.method == "GET":
+        return render(request, 'login.html')
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        print(username)
+        print(password)
+
+        return render(request, 'register.html')

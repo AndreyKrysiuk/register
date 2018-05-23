@@ -51,31 +51,22 @@
             <h1 align="center">Авторизація</h1>
 
                 <center>
-              <form action='/login' class="" method='POST'  id="rForm">
+              <form action='/login/'  method='POST'  id="rForm">
+                   {% csrf_token %}
           			Ім'я користувача:
 
                 <br/>
+          			<input type='text'  name='username' class="myinput" id="username" />
 
-          			<input type='text'  name='username' class="" id="username" aria-describedby="inputSuccess2Status"/>
-                <div id="usernameBlock" class="er">
-                  <br>
-                </div>
                 <br/>
-
+ <br/>
           			Пароль:
 
                 <br/>
-
-          			<input type='password'  name='password' class="" id="password" aria-describedby="inputSuccess2Status" />
-                <div id="passwordBlock" class="er">
-                  <br>
-                </div>
-
-
-
+          			<input type='password'  name='password' class="myinput"  id="password"  />
+                 <br/>
 
               <br />
-
           			<input type="submit" class="knopka" value='Авторизуватися' />
 
 

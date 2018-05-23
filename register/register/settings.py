@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
-
+from mongoengine import connect
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -73,14 +73,17 @@ WSGI_APPLICATION = 'register.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+MONGODB_DATABASES = {
+    'default': {'name': 'django_mongoengine'}
 }
 
+
+DATABASES = {
+    'default': {'ENGINE': 'django.db.backends.dummy'}
+}
+
+mongo_path = "mongodb://admin:avemaria@ds131800.mlab.com:31800/register"
+connect(host=mongo_path)
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
