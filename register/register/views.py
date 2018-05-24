@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from register.Schemas import User
-from register.Schemas import Checking
-from register.Schemas import Register
-from register.Schemas import Person
+
+from register.Schemas.User import *
+from register.Schemas.Checking import *
+from register.Schemas.Register import *
+from register.Schemas.Person import *
 
 
 def home(request):
@@ -79,20 +80,12 @@ def login(request):
 
 
 def admin_checking(request):
-    if request.method == "POST":
-        name = request.POST['name']
-        category = request.POST['category']
-        job = request.POST['job']
-        position = request.POST['position']
-        region = request.POST['region']
-        isPretender = request.POST['isPretender']
-        solution = request.POST['solution']
-        date_accept_ban = request.POST['date_accept_ban']
-        date_refuse_ban = request.POST['date_refuse_ban']
-        resolution = request.POST['resolution']
+
+    persons = get_all_persons()
+    checking_d = get_all_checking()
+    checking_p = get_all_checking()
 
 
 
-        return render(request, 'admin_checking.html')
-    if request.method == "GET":
-        return render(request, 'admin_checking.html')
+
+    return render(request, 'admin_checking.html', locals())
