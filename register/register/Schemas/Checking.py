@@ -3,7 +3,7 @@ from register.Schemas import Person
 
 
 class Checking(Document):
-    person_id = ReferenceField('Person')
+    person = ReferenceField('Person')
     solution = StringField(max_length=240)
     date_accept_ban = StringField()
     date_refuse_ban = StringField()
@@ -20,7 +20,7 @@ def add_new_checking(person, solution, resolution='-', date_refuse_ban='-',  dat
     if person is None:
         return -1
     else:
-        checking.person_id = person
+        checking.person = person
 
     if (solution is None) or (len(solution) > 240):
         return -1
@@ -49,11 +49,11 @@ def get_all_checking():
 
 def update_checking(this_id, solution, resolution, date_refuse_ban, date_accept_ban):
 
-    if this_id is not None:
+    if this_id is None:
         return -1
 
     checking = Checking.objects(id=this_id)
-    if checking is not None:
+    if checking is None:
         return -1
     if solution is not None:
         checking.update(**{"set__solution": solution})
