@@ -10,21 +10,6 @@ class Person(Document):
     isPretender = BooleanField(required=True)
 
 
-def add_new_person(name, category, job, position, region, isPretender):
-    person = Person()
-
-    person.name = name
-    person.category = category
-    person.job = job
-    person.position = position
-    person.region = region
-    if isPretender is not None:
-        person.isPretender = isPretender
-    else:
-        person.isPretender = False
-    person.save()
-    return 0
-
 
 def update_person(id, name, category, job, position, region, isPretender):
     person = Person.objects(id=id)[0]
@@ -67,8 +52,9 @@ def add_new_person(name, category, job, position, region, isPretender=False):
     person = Person()
 
     exists = Person.objects(name=name, category=category, job=job, position=position, region=region, isPretender=isPretender)
-    if exists is not None:
-        return exists.id
+
+    if exists:
+        return exists[0]
 
     person.name = name
     person.category = category
@@ -76,11 +62,11 @@ def add_new_person(name, category, job, position, region, isPretender=False):
     person.position = position
     person.region = region
     if isPretender is not None:
-        person.isPretender = isPretender
+        person.isPretender = str2bool(isPretender)
     else:
         person.isPretender = False
-    person.save()
-    return 0
+
+    return person.save()
 
 
 def update_person(id, name, category, job, position, region, isPretender=False):
@@ -104,7 +90,7 @@ def update_person(id, name, category, job, position, region, isPretender=False):
         person.update(**{"set__region": region})
 
     if isPretender is not None:
-        person.update(**{"set__isPretender": isPretender})
+        person.update(**{"set__isPretender": str2bool(isPretender)})
     return 0
 
 
@@ -128,6 +114,10 @@ def get_person(id):
 def get_all_persons():
     return Person.objects()
 
+
 def get_officials():
     return Person.objects(isPretender=False)
 
+
+def str2bool(v):
+    return v.lower() in ("yes", "true", "t", "1", "True")

@@ -36,5 +36,7 @@ urlpatterns = [
     url(r'^public_council_links/$', views.public_council_links),
     url(r'^register/$', views.register),
     url(r'^login/$', views.login),
-    url(r'^admin_checking/$', views.admin_checking)
+    url(r'^admin_checking/$', views.admin_checking),
+    url(r'^admin_checking/delete/(?P<id>\w+)$', views.admin_checking_delete),
+    url(r'^admin_checking/update/(?P<id>\w+)$', views.admin_checking_update)
 ]

@@ -1,5 +1,5 @@
 from mongoengine import *
-from register.Schemas import Person
+from register.Schemas.Person import *
 
 
 class Checking(Document):
@@ -13,9 +13,10 @@ class Checking(Document):
 def add_new_checking(person, solution, resolution='-', date_refuse_ban='-',  date_accept_ban='-'):
     checking = Checking()
 
-    exists = Checking.objects(person=person, solution=solution, resolution=resolution, date_refuse_ban=date_refuse_ban, date_accept_ban=date_accept_ban)
-    if exists is not None:
-        return exists.id
+    exists = Checking.objects(person_id=person, solution=solution, resolution=resolution, date_refuse_ban=date_refuse_ban, date_accept_ban=date_accept_ban)
+
+    if exists:
+        return exists[0].id
 
     if person is None:
         return -1
@@ -46,11 +47,13 @@ def get_checking(this_id):
 def get_all_checking():
     return Checking.objects()
 
+
 def get_all_checking_where(is_pretendent):
     if is_pretendent:
         return Checking.objects()
     else:
         return Checking.objects()
+
 
 def update_checking(this_id, solution, resolution, date_refuse_ban, date_accept_ban):
 
@@ -58,8 +61,38 @@ def update_checking(this_id, solution, resolution, date_refuse_ban, date_accept_
         return -1
 
     checking = Checking.objects(id=this_id)
+
     if checking is None:
         return -1
+
+
+    if solution is not None:
+        checking[0].update(**{"set__solution": solution})
+
+    if resolution is not None:
+        checking[0].update(**{"set__resolution": resolution})
+
+    if date_accept_ban is not None:
+        checking[0].update(**{"set__date_refuse_ban": date_refuse_ban})
+
+    if date_refuse_ban is not None:
+        checking[0].update(**{"set__date_accept_ban": date_accept_ban})
+
+    return 0
+
+
+def update_checking_with_person(this_id,name, category, job, position, region, solution, resolution, date_refuse_ban, date_accept_ban,isPretender=False):
+
+    if this_id is None:
+        return -1
+
+    checking = Checking.objects(id=this_id)[0]
+
+    if checking is None:
+        return -1
+
+    update_person(checking.person_id.id, name, category, job, position, region, isPretender)
+
     if solution is not None:
         checking.update(**{"set__solution": solution})
 
