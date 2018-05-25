@@ -7,10 +7,17 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=PT+Serif' rel='stylesheet' type='text/css'>
 
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 	 <link rel="stylesheet" href="{%static "index.css"%}">
 
     <link rel="stylesheet" href="https://lustration.minjust.gov.ua/css/bootstrap.min.2.css">
-	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <style type="text/css"></style>
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
 
 
 </head>
@@ -69,6 +76,104 @@
         </div>
     </div>
 </div>
+
+
+
+<div class="container">
+    <div class="panel panel-default">
+
+        <div class="panel-body">
+
+
+
+
+                    <br>
+                     <!-- тута содержимое дива -->
+
+                    <!-- тута таблица -->
+                    <div class="tab-content">
+                <div class="tab-pane active" id="acting"><br>
+
+                    <div id = "acting2">
+                    <table class="table" id="table-search">
+
+                        <thead>
+                        <tr>
+
+                            <th width="80%"></th>
+                            <th width="20%"></th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                    {% for d in register %}
+
+                        <tr>
+                                <td><span class="s-name">{{ forloop.counter }}.&nbsp{{ d.person_id.name }} </span></td>
+                                <td>
+                                    <button type="button" class="button" data-toggle="modal" data-target="#myModal{{ d.id }}">Повна інформація</button>
+
+                                 <!-- Modal -->
+                                <div id="myModal{{ d.id }}" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+
+                                     <!-- Modal content-->
+                                        <div class="modal-content">
+
+                                            <div class="modal-body">
+                                           <table class="table checking">
+                <tr>
+                    <td width="30%" class="title">Прізвище, ім'я, по батькові</td>
+                    <td class="description">{{ d.person_id.name }}</td>
+                </tr>
+
+                <tr>
+                    <td class="title">Місце роботи</td>
+                    <td class="description">{{ d.person_id.job }} </td>
+                </tr>
+
+                <tr>
+                    <td class="title">Посада на час застосування положення Закону України «Про очищення влади»</td>
+                    <td class="description">{{ d.person_id.position }} </td>
+                </tr>
+                <tr>
+                    <td class="title">Відомості про результати перевірки</td>
+					<td class="description">{{ d.result }}</td>
+
+                </tr>
+                <tr>
+                    <td class="title">Час протягом якого на особу поширюється заборона, передбачена Законом України "Про очищення влади"</td>
+                    <td class="description">{{ d.ban_time }}</td>
+                </tr>
+
+            </table>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--End Modal-->
+
+                                </td>
+
+                        </tr>
+                    {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                </div>
+
+            </div>
+              <!-- тута его больше нет -->
+                </div>
+
+            </div>
+        </div>
 
 
 

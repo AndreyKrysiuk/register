@@ -7,10 +7,17 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=PT+Serif' rel='stylesheet' type='text/css'>
 
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 	 <link rel="stylesheet" href="{%static "index.css"%}">
 
     <link rel="stylesheet" href="https://lustration.minjust.gov.ua/css/bootstrap.min.2.css">
-	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <style type="text/css"></style>
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
 
 
 </head>
@@ -70,6 +77,251 @@
     </div>
 </div>
 
+
+
+<div class="container">
+    <div class="panel panel-default">
+
+        <div class="panel-body">
+
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#home">Діючий чиновник</a></li>
+                <li><a data-toggle="tab" href="#menu1">Претендент / Призначений</a></li>
+            </ul>
+
+
+            <div class="tab-content">
+                <div id="home" class="tab-pane fade in active">
+                    <br>
+                     <!-- тута содержимое дива -->
+
+                    <!-- тута таблица -->
+                    <div class="tab-content">
+                <div class="tab-pane active" id="acting"><br>
+
+                    <div id = "acting2">
+                    <table class="table" id="table-search">
+                        <thead>
+                        <tr>
+                             <th></th>
+                            <th width="15%">Регіон</th>
+                            <th width="20%">Назва органу перевірки</th>
+                            <th width="30%">ПІБ особи, щодо якої здійснюється перевірка</th>
+                            <th width="25%">Посада</th>
+                            <th width="10%"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+{% for d in checking_d %}
+                        <tr class="open_item_acting">
+                            <td class="text-right">{{ forloop.counter }}.</td>
+                            <td>{{ d.person_id.region }}</td>
+                            <td>{{ d.person_id.job }}</td>
+                            <td>{{ d.person_id.name }}</td>
+                            <td>{{ d.person_id.position }}  </td>
+                            <td>
+                                <button type="button" class="button" data-toggle="modal" data-target="#myModal{{ d.id }}">Повна інформація</button>
+
+                                <!-- Modal -->
+                                <div id="myModal{{ d.id }}" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+
+                                     <!-- Modal content-->
+                                        <div class="modal-content">
+
+                                            <div class="modal-body">
+
+                                            <table class="table checking">
+                <tr>
+                    <td width="30%" class="title">Регіон</td>
+                    <td class="description">{{ d.person_id.region }}</td>
+                </tr>
+                <tr>
+                    <td class="title">Категорія органу перевірки</td>
+                    <td class="description">{{ d.person_id.category }}</td>
+                </tr>
+                <tr>
+                    <td class="title">Назва органу перевірки</td>
+                    <td class="description">{{ d.person_id.job }} </td>
+                </tr>
+                <tr>
+                    <td class="title">Реквізити рішення про проведення перевірки</td>
+                    <td class="description">{{ d.solution }}</td>
+                </tr>
+                <tr>
+                    <td class="title">ПІБ особи, щодо якої здійснюється перевірка</td>
+                    <td class="description">{{ d.person_id.name }}</td>
+                </tr>
+                <tr>
+                    <td class="title">Посада</td>
+                    <td class="description">{{ d.person_id.position }} </td>
+                </tr>
+                <tr>
+                    <td class="title">Дата подання Заяви про застосування заборон, визначених законом</td>
+					<td class="description">{{ d.date_accept_ban }}</td>
+
+                </tr>
+                <tr>
+                    <td class="title">Дата подання Заяви про не застосування заборон, визначених законом</td>
+                    <td class="description">{{ d.date_refuse_ban }}</td>
+                </tr>
+                <tr>
+                    <td class="title">Висновок про результати перевірки</td>
+                    <td class="description">{{ d.resolution }}</td>
+                </tr>
+                <tr>
+                <td>Сканкопія заяви</td>
+                <td class="description">
+                    Розміщується на офіційному веб - сайті вищезазначеного органу перевірки                </td>
+            </tr>
+            <tr>
+                <td>Сканкопія декларації</td>
+                <td class="description">
+                    Розміщується на офіційному веб - сайті вищезазначеного органу перевірки                </td>
+            </tr>
+            </table>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--End Modal-->
+
+
+
+                            </td>
+                        </tr>
+                    {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                </div>
+
+            </div>
+              <!-- тута его больше нет -->
+                </div>
+                <div id="menu1" class="tab-pane fade">
+                    <br>
+
+
+                    <!-- тута таблица -->
+                    <div class="tab-content">
+                <div class="tab-pane active" id="acting"><br>
+
+                    <div id = "acting2">
+                    <table class="table" id="table-search">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th width="15%">Регіон</th>
+                            <th width="20%">Назва органу перевірки</th>
+                            <th width="30%">ПІБ особи, щодо якої здійснюється перевірка</th>
+                            <th width="25%">Посада</th>
+                            <th width="10%"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                         {%  for d in checking_p %}
+                        <tr class="open_item_acting">
+                            <td class="text-right">{{ forloop.counter }}.</td>
+                            <td>{{ d.person_id.region }}</td>
+                            <td>{{ d.person_id.job }}</td>
+                            <td>{{ d.person_id.name }}</td>
+                            <td>{{ d.person_id.position }}  </td>
+                            <td>
+                                <button type="button" class="button" data-toggle="modal" data-target="#myModal{{ d.id }}">Повна інформація</button>
+
+                                <!-- Modal -->
+                                <div id="myModal{{ d.id }}" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+
+                                     <!-- Modal content-->
+                                        <div class="modal-content">
+
+                                            <div class="modal-body">
+                                            <table class="table checking">
+                <tr>
+                    <td width="30%" class="title">Регіон</td>
+                    <td class="description">{{ d.person_id.region }}</td>
+                </tr>
+                <tr>
+                    <td class="title">Категорія органу перевірки</td>
+                    <td class="description">{{ d.person_id.category }}</td>
+                </tr>
+                <tr>
+                    <td class="title">Назва органу перевірки</td>
+                    <td class="description">{{ d.person_id.job }} </td>
+                </tr>
+                <tr>
+                    <td class="title">Реквізити рішення про проведення перевірки</td>
+                    <td class="description">{{ d.solution }}</td>
+                </tr>
+                <tr>
+                    <td class="title">ПІБ особи, щодо якої здійснюється перевірка</td>
+                    <td class="description">{{ d.person_id.name }}</td>
+                </tr>
+                <tr>
+                    <td class="title">Посада</td>
+                    <td class="description">{{ d.person_id.position }} </td>
+                </tr>
+                <tr>
+                    <td class="title">Дата подання Заяви про застосування заборон, визначених законом</td>
+					<td class="description">{{ d.date_accept_ban }}</td>
+
+                </tr>
+                <tr>
+                    <td class="title">Дата подання Заяви про не застосування заборон, визначених законом</td>
+                    <td class="description">{{ d.date_refuse_ban }}</td>
+                </tr>
+                <tr>
+                    <td class="title">Висновок про результати перевірки</td>
+                    <td class="description">{{ d.resolution }}</td>
+                </tr>
+                <tr>
+                <td>Сканкопія заяви</td>
+                <td class="description">
+                    Розміщується на офіційному веб - сайті вищезазначеного органу перевірки                </td>
+            </tr>
+            <tr>
+                <td>Сканкопія декларації</td>
+                <td class="description">
+                    Розміщується на офіційному веб - сайті вищезазначеного органу перевірки                </td>
+            </tr>
+            </table>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--End Modal-->
+
+
+                            </td>
+                        </tr>
+                    {%  endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                </div>
+
+            </div>
+              <!-- тута его больше нет -->
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </div>
 
 
 

@@ -57,7 +57,7 @@
             <div class="navbar-collapse collapse navbar-inverse-collapse">
                 <ul class="nav navbar-nav">
 
-                    <li class = "active"><a href="/admin_register">Перевірки</a></li>
+                    <li class = "active"><a href="/admin_checking">Перевірки</a></li>
                     <li ><a href="/admin_register">Реєстр</a></li>
 
 					<li><a href='/admin_users'>Користувачі</a></li>
@@ -67,7 +67,7 @@
     </div>
 </div>
 
-<div class="container">
+
 
 <div class="container">
     <div class="panel panel-default">
@@ -151,7 +151,7 @@
 
 {% for d in checking_d %}
                         <tr class="open_item_acting">
-                            <td class="text-right"></td>
+                            <td class="text-right">{{ forloop.counter }}.</td>
                             <td>{{ d.person_id.region }}</td>
                             <td>{{ d.person_id.job }}</td>
                             <td>{{ d.person_id.name }}</td>
@@ -226,9 +226,9 @@
                     <br>
 
                     <!-- тута содержимое дива -->
-                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Додати запис</button>
+                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal2">Додати запис</button>
 
-                    <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal fade" id="myModal2" role="dialog">
                         <div class="modal-dialog">
 
                         <!-- Modal content-->
@@ -292,7 +292,7 @@
                         <tbody>
                          {%  for d in checking_p %}
                         <tr class="open_item_acting">
-                            <td class="text-right"></td>
+                            <td class="text-right">{{ forloop.counter }}.</td>
                             <td>{{ d.person_id.region }}</td>
                             <td>{{ d.person_id.job }}</td>
                             <td>{{ d.person_id.name }}</td>
@@ -369,7 +369,7 @@
 
         </div>
     </div>
-</div>
+
 
 
 </body>

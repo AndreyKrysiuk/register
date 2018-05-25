@@ -50,9 +50,13 @@ def get_all_checking():
 
 def get_all_checking_where(is_pretendent):
     if is_pretendent:
-        return Checking.objects()
+        temp = Person.objects(isPretender=True)
+        _return = Checking.objects(person_id__in=temp)
+        return _return
     else:
-        return Checking.objects()
+        temp = Person.objects(isPretender=False)
+        _return = Checking.objects(person_id__in=temp)
+        return _return
 
 
 def update_checking(this_id, solution, resolution, date_refuse_ban, date_accept_ban):
@@ -109,8 +113,10 @@ def update_checking_with_person(this_id,name, category, job, position, region, s
 
 
 def delete_checking(this_id):
-    checking = Checking.objects(id=this_id)
+    checking = Checking.objects(id=this_id)[0]
+
     if checking is not None:
+        delete_person(checking.person_id.id)
         checking.delete()
         return 0
     else:

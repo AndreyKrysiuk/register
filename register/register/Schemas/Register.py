@@ -1,9 +1,9 @@
 from mongoengine import *
-from register.Schemas import Person
+from register.Schemas.Person import *
 
 
 class Register(Document):
-    person = ReferenceField('Person')
+    person_id = ReferenceField('Person')
     result = StringField(max_length=240)
     ban_time = StringField(max_length=90)
 
@@ -12,13 +12,14 @@ def add_new_register(person, result='-', ban_time='-'):
     register = Register()
 
     exists = Register.objects(person_id=person, result=result, ban_time=ban_time)
-    if exists is not None:
-        return exists.id
+
+    if exists:
+        return exists[0].id
 
     if person is None:
         return -1
     else:
-        register.person = person
+        register.person_id = person
 
     if (result is None) or (len(result) > 240):
         return -1
@@ -62,10 +63,32 @@ def update_register(this_id, result, ban_time):
     return 0
 
 
+def update_register_with_person(this_id,name, category, job, position, region, result, ban_time, isPretender=False):
+
+    if this_id is None:
+        return -1
+
+    register = Register.objects(id=this_id)[0]
+
+    if not register:
+        return -1
+
+    update_person(register.person_id.id, name, category, job, position, region, isPretender)
+
+    if result is not None:
+        register.update(**{"set__result": result})
+
+    if ban_time is not None:
+        register.update(**{"set__ban_time": ban_time})
+
+    return 0
+
+
 def delete_register(this_id):
-    register = Register.objects(this_id = id)
+    register = Register.objects(id=this_id)[0]
 
     if register is not None:
+        delete_person(register.person_id.id)
         register.delete()
         return 0
     else:

@@ -25,11 +25,11 @@ def banished(request):
 
 
 def checking(request):
-    return render(request, 'checking.html')
+    checking_d = get_all_checking_where(False)
+    checking_p = get_all_checking_where(True)
 
+    return render(request, 'checking.html', locals())
 
-def contact(request):
-    return render(request, 'contact.html')
 
 
 def court_proceedings(request):
@@ -65,7 +65,8 @@ def public_council_links(request):
 
 
 def register(request):
-    return render(request, 'register.html')
+    register = get_all_register()
+    return render(request, 'register.html', locals())
 
 
 def login(request):
@@ -83,8 +84,8 @@ def login(request):
 def admin_checking(request):
     i = 0
     persons = get_all_persons()
-    checking_d = get_all_checking()
-    checking_p = get_all_checking()
+    checking_d = get_all_checking_where(False)
+    checking_p = get_all_checking_where(True)
 
     if request.method == "POST":
         name = request.POST['name']
@@ -126,4 +127,43 @@ def admin_checking_update(request, id):
     return redirect("/admin_checking")
 
 
+def admin_register(request):
 
+    register = get_all_register()
+
+    if request.method == "POST":
+        name = request.POST['name']
+        category = request.POST['category']
+        job = request.POST['job']
+        position = request.POST['position']
+        region = request.POST['region']
+        isPretender = request.POST['isPretender']
+        result = request.POST['result']
+        ban_time = request.POST['ban_time']
+
+        add_new_register(add_new_person(name, category, job, position, region, isPretender), result, ban_time)
+
+    return render(request, 'admin_register.html',locals())
+
+
+def admin_register_delete(request, id):
+    delete_register(id)
+    return redirect("/admin_register")
+
+
+def admin_register_update(request, id):
+    name = request.POST['name']
+    category = request.POST['category']
+    job = request.POST['job']
+    position = request.POST['position']
+    region = request.POST['region']
+    isPretender = request.POST['isPretender']
+    result = request.POST['result']
+    ban_time = request.POST['ban_time']
+    update_register_with_person(id,name,category,job,position,region,result,ban_time,isPretender)
+
+    return redirect("/admin_register")
+
+
+def admin_users(request):
+    return render(request, 'admin_users.html')
