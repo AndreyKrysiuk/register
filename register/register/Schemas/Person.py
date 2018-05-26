@@ -10,6 +10,7 @@ class Person(Document):
     isPretender = BooleanField(required=True)
 
 
+
 def update_person(id, name, category, job, position, region, isPretender):
     person = Person.objects(id=id)[0]
     if person is None:

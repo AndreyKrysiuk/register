@@ -56,7 +56,7 @@
 
             <div class="navbar-collapse collapse navbar-inverse-collapse">
                 <ul class="nav navbar-nav">
-
+                     <li><a href="/">На головну</a></li>
                     <li ><a href="/admin_checking">Перевірки</a></li>
                     <li class = "active"><a href="/admin_register">Реєстр</a></li>
 
@@ -79,7 +79,7 @@
 
                     <br>
                      <!-- тута содержимое дива -->
-                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Додати запис</button><br><br>
+                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Додати запис</button><br><br>
          <form class="example" action="/admin_register/" method='POST'>
 
                         {% csrf_token %}
@@ -114,26 +114,37 @@
                             <div class="modal-body">
                                <form action='/admin_register/add/'  method='POST'  id="rForm">
                                    {% csrf_token %}
-          			                ПІБ:<br>
-                                   <input type='text'  name='name' class="myinput" id="name" /><br><br>
-                                   Категорія ограну перевірки:<br>
-                                   <input type='text'  name='category' class="myinput" id="category" /><br><br>
-                                   Назва органу перевірки:<br>
-                                   <input type='text'  name='job' class="myinput" id="job" /><br><br>
-                                   Посада:<br>
-                                   <input type='text'  name='position' class="myinput" id="position" /><br><br>
-                                   Регіон:<br>
-                                   <input type='text'  name='region' class="myinput" id="region" /><br><br>
-                                   <input type='hidden'  name='isPretender' class="myinput" id="isPretender" value="False" />
-                                   Відомості про результати перевірки:<br>
-                                   <input type='text'  name='result' class="myinput" id="result" /><br><br>
-                                   Час протягом якого на особу поширюється заборона, передбачена Законом України "Про очищення влади":<br>
-                                   <input type='text'  name='ban_time' class="myinput" id="ban_time" /><br><br>
-          			                <input type="submit"  value='Додати' /><br>
+                                   <div class="form-group">
+          			               <label for="name">ПІБ:</label>
+                                   <input type='text'  name='name' class="form-control" id="name" />
+                                   </div>
+                                   <div class="form-group">
+                                   <label for="category">Категорія ограну перевірки:</label>
+                                   <input type='text'  name='category' class="form-control" id="category" />
+                                   </div>
+                                   <div class="form-group">
+                                    <label for="job">Назва органу перевірки:</label>
+                                   <input type='text'  name='job' class="form-control" id="job" /></div>
+                                   <div class="form-group">
+                                    <label for="position">Посада:</label>
+                                   <input type='text'  name='position' class="form-control" id="position" /></div>
+                                   <div class="form-group">
+                                    <label for="region">Регіон:</label>
+                                   <input type='text'  name='region' class="form-control" id="region" /></div>
+                                   <input type='hidden'  name='isPretender' class="form-control" id="isPretender" value="False" />
+                                   <div class="form-group">
+
+                                    <label for="result">Відомості про результати перевірки:</label>
+                                   <!--<input type='text'  name='result' class="form-control" id="result" />-->
+                                    <textarea style="resize: vertical" rows="3" name='result' class="form-control" id="result"></textarea>
+                                   </div>
+
+                                   <div class="form-group">
+                                    <label for="ban_time">Час протягом якого на особу поширюється заборона, передбачена Законом України "Про очищення влади":</label>
+                                   <input type='text'  name='ban_time' class="form-control" id="ban_time" /></div>
+
+                                   <button type="button submit" class="btn btn-success">Додати</button><br>
           		                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
                             </div>
                     </div>
                 </div>
@@ -148,8 +159,8 @@
                         <thead>
                         <tr>
 
-                            <th width="80%"></th>
-                            <th width="20%"></th>
+                            <th width="81%"></th>
+                            <th width="19%"></th>
                         </tr>
                         </thead>
 
@@ -160,7 +171,8 @@
                         <tr>
                                 <td><span class="s-name">{{ forloop.counter }}.&nbsp{{ d.person_id.name }} </span></td>
                                 <td>
-                                    <button type="button" class="button" data-toggle="modal" data-target="#myModal{{ d.id }}">Редагувати</button>
+
+
 
                                 <!-- Modal -->
                                 <div id="myModal{{ d.id }}" class="modal fade" role="dialog">
@@ -175,30 +187,41 @@
                                             <div class="modal-body">
                                             <form action='/admin_register/update/{{ d.id }}'  method='POST'  id="rForm">
                                             {% csrf_token %}
-          			                        ПІБ:<br>
-                                            <input type='text'  name='name' class="myinput" id="name" placeholder="{{ d.person_id.name }}" value="{{ d.person_id.name }}"/><br><br>
-                                            Категорія ограну перевірки:<br>
-                                            <input type='text'  name='category' class="myinput" id="category" placeholder="{{ d.person_id.category }}" value="{{ d.person_id.category }}"/><br><br>
-                                            Назва органу перевірки:<br>
-                                            <input type='text'  name='job' class="myinput" id="job" placeholder="{{ d.person_id.job }}" value="{{ d.person_id.job }}"/><br><br>
-                                            Посада:<br>
-                                            <input type='text'  name='position' class="myinput" id="position" placeholder="{{ d.person_id.position }}" value="{{ d.person_id.position }}"/><br><br>
-                                            Регіон:<br>
-                                            <input type='text'  name='region' class="myinput" id="region" placeholder="{{ d.person_id.region }}" value="{{ d.person_id.region }}"/><br><br>
-                                            <input type='hidden'  name='isPretender' class="myinput" id="isPretender" value="False" />
+                                                <div class="form-group">
+          			                        <label for="name">ПІБ:</label>
+                                            <input type='text'  name='name' class="form-control" id="name" placeholder="{{ d.person_id.name }}" value="{{ d.person_id.name }}"/></div>
 
-                                            Відомості про результати перевірки:<br>
-                                            <input type='text'  name='result' class="myinput" id="result" placeholder="{{ d.result }}" value="{{ d.result }}"/><br><br>
-                                            Час протягом якого на особу поширюється заборона, передбачена Законом України "Про очищення влади":<br>
-                                            <input type='text'  name='ban_time' class="myinput" id="ban_time" placeholder="{{ d.ban_time }}" value="{{ d.ban_time }}"/><br><br>
+                                                    <div class="form-group">
+                                            <label for="category">Категорія ограну перевірки:</label>
+                                            <input type='text'  name='category' class="form-control" id="category" placeholder="{{ d.person_id.category }}" value="{{ d.person_id.category }}"/></div>
+                                                        <div class="form-group">
+                                            <label for="job">Назва органу перевірки:</label>
+                                            <input type='text'  name='job' class="form-control" id="job" placeholder="{{ d.person_id.job }}" value="{{ d.person_id.job }}"/></div>
+
+                                                            <div class="form-group">
+                                            <label for="position">Посада:</label>
+                                            <input type='text'  name='position' class="form-control" id="position" placeholder="{{ d.person_id.position }}" value="{{ d.person_id.position }}"/></div>
+
+                                                                <div class="form-group">
+                                            <label for="region">Регіон:</label>
+                                            <input type='text'  name='region' class="form-control" id="region" placeholder="{{ d.person_id.region }}" value="{{ d.person_id.region }}"/></div>
+                                            <input type='hidden'  name='isPretender' class="form-control" id="isPretender" value="False" />
+
+                                            <div class="form-group">
+                                            <label for="result">Відомості про результати перевірки:</label>
+
+                                            <textarea style="resize: vertical" rows="3" name='result' class="form-control" id="result">{{ d.result }}</textarea>
+                                            </div>
+
+                                                <div class="form-group">
+                                                <label for="ban_time">Час протягом якого на особу поширюється заборона, передбачена Законом України "Про очищення влади":</label>
+                                            <input type='text'  name='ban_time' class="form-control" id="ban_time" placeholder="{{ d.ban_time }}" value="{{ d.ban_time }}"/></div>
 
 
-          			                        <input type="submit"  value='Змінити' /><br>
+          			                        <button type="button submit" class="btn btn-success">Змінити</button><br>
           		                            </form>
                                             </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
-                                            </div>
+
                                         </div>
 
                                     </div>
@@ -207,8 +230,12 @@
 
                                     <form action="/admin_register/delete/{{ d.id }}" method="POST" id="delForm">
                                     {% csrf_token %}
-                                    <button type="button submit" class="btn btn-default">Видалити</button>
+                                         <div class="btn-group">
+                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal{{ d.id }}">Редагувати</button>
+                                    <button type="button submit" class="btn btn-danger">Видалити</button>
+                                         </div>
                                 </form>
+
                                 </td>
 
                         </tr>

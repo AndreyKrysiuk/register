@@ -121,8 +121,8 @@
                         <thead>
                         <tr>
 
-                            <th width="80%"></th>
-                            <th width="20%"></th>
+                            <th width="85%"></th>
+                            <th width="15%"></th>
                         </tr>
                         </thead>
 
@@ -133,7 +133,7 @@
                         <tr>
                                 <td><span class="s-name">{{ forloop.counter }}.&nbsp{{ d.person_id.name }} </span></td>
                                 <td>
-                                    <button type="button" class="button" data-toggle="modal" data-target="#myModal{{ d.id }}">Повна інформація</button>
+                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal{{ d.id }}">Повна інформація</button>
 
                                  <!-- Modal -->
                                 <div id="myModal{{ d.id }}" class="modal fade" role="dialog">

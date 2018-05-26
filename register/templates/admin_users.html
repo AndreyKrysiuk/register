@@ -56,7 +56,7 @@
 
             <div class="navbar-collapse collapse navbar-inverse-collapse">
                 <ul class="nav navbar-nav">
-
+                     <li><a href="/">На головну</a></li>
                     <li ><a href="/admin_checking">Перевірки</a></li>
                     <li><a href="/admin_register">Реєстр</a></li>
 
@@ -67,7 +67,7 @@
     </div>
 </div>
 
-<div class="container">
+
 
 <div class="container">
     <div class="panel panel-default">
@@ -79,7 +79,7 @@
 
                     <br>
                      <!-- тута содержимое дива -->
-                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Додати користувача</button>
+                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Додати користувача</button>
 
                     <div class="modal fade" id="myModal" role="dialog">
                         <div class="modal-dialog">
@@ -88,20 +88,43 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Додання нового користувача</h4>
+                                    <h4 class="modal-title">Реєстрація нового користувача</h4>
                                 </div>
                             <div class="modal-body">
-                               <form action='/admin_register/'  method='POST'  id="rForm">
+                               <form action='/admin_users/'  method='POST'  id="rForm">
                                    {% csrf_token %}
-          			                Ім'я користувача:<br>
-                                   <input type='text'  name='username' class="myinput" id="username" /><br><br>
-                                   Пароль:<br>
-                                   <input type='text'  name='password' class="myinput" id="password" /><br><br>
-          			                <input type="submit"  value='Додати' /><br>
+                                   <div class="form-group">
+                                       <label for="username">Логін:</label>
+                                       <input type='text'  name='username' class="form-control" id="username" /></div>
+
+
+                                    <div class="form-group">
+                                        <label for="category"> Ім'я:</label>
+                                        <input type='text' name='firstname' class="form-control" id="firstname" /></div>
+
+
+                                   <div class="form-group">
+                                        <label for="category">  Прізвище:</label>
+                                        <input type='text' name='lastname' class="form-control" id="lastname" />
+                                    </div>
+
+                                   <div class="form-group">
+                                        <label for="category"> E-mail:</label>
+                                        <input type='text' name='email' class="form-control" id="email" />
+                                        </div>
+
+                                    <div class="form-group">
+          			                    <label for="category">Пароль:</label>
+          			                    <input type='password'  name='password' class="form-control"  id="password"  />
+                                        </div>
+
+                                    <div class="form-group">
+                                        <label for="category">Повторіть пароль:</label>
+                                        <input type='password'  name='password2' class="form-control"  id="password2"  />
+                                    </div>
+
+          			               <button type="button submit" class="btn btn-success">Зареєструвати</button><br>
           		                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
                             </div>
                     </div>
                 </div>
@@ -116,29 +139,53 @@
                         <thead>
                         <tr>
 
-                            <th width="40%"></th>
-                            <th width="30%"></th>
-                             <th width="30%"></th>
+                            <th></th>
+                            <th width="15%">Логін</th>
+                            <th width="18%">Ім'я</th>
+                            <th width="20%">Прізвище</th>
+                            <th width="15%">E-mail</th>
+                            <th width="10%"></th>
+                            <th width="10%">Керування</th>
+                            <th width="10%"></th>
                         </tr>
                         </thead>
 
                         <tbody>
 
-                    {% for d in register %}
+                    {% for u in users %}
 
                         <tr>
-                                <td><span class="s-name">{{ forloop.counter }}.&nbsp{{ d.person_id.name }} </span></td>
-                                <td>
-                                    <form action="/admin_register/update/{{ d.id }}" method="POST" id="delForm">
-                                    {% csrf_token %}
-                                    <button type="button submit" class="btn btn-default">Забанити</button>
-                                    </form>
-                                </td>
+                                <td class="text-right">{{ forloop.counter }}.</td>
+                                <td>{{ u.username }}</td>
+                                <td>{{ u.first_name }}</td>
+                                <td>{{ u.last_name }}</td>
+                                <td>{{ u.email }}</td>
 
                                 <td>
-                                    <form action="/admin_register/delete/{{ d.id }}" method="POST" id="delForm">
+                                    <form action="/admin_register/ban_deban/{{ u.id }}" method="POST" id="delForm">
                                     {% csrf_token %}
-                                    <button type="button submit" class="btn btn-default">Видалити</button>
+                                        {% if u.is_active %}
+                                        <button type="button submit" class="btn btn-success">Забанити</button>
+                                        {% else %}
+                                         <button type="button submit" class="btn btn-danger">Розбанити</button>
+                                        {% endif %}
+                                    </form>
+                                </td>
+                            <td>
+                                <form action="/admin_register/admin_deadmin/{{ u.id }}" method="POST" id="delForm">
+                                    {% csrf_token %}
+                                    {% if u.is_superuser %}
+                                        <button type="button submit" class="btn btn-success">Забрати права</button>
+                                        {% else %}
+                                         <button type="button submit" class="btn btn-danger">Надати права</button>
+                                        {% endif %}
+                                    </form>
+                            </td>
+
+                                <td>
+                                    <form action="/admin_register/delete/{{ u.id }}" method="POST" id="delForm">
+                                    {% csrf_token %}
+                                    <button type="button submit" class="btn btn-danger">Видалити</button>
                                     </form>
                                 </td>
 
@@ -157,7 +204,7 @@
             </div>
         </div>
 
-        </div>
+
 
 
 

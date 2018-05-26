@@ -84,11 +84,18 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
 mongo_path = "mongodb://admin:avemaria@ds131800.mlab.com:31800/register"
 connect(host=mongo_path)
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
+#Authentication backends
+AUTHENTICATION_BACKENDS = (
+        'django.contrib.auth.backends.ModelBackend',
+    )
+
+#AUTH_USER_MODEL = 'django.contrib.auth.models.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

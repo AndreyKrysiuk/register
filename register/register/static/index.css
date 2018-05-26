@@ -193,6 +193,10 @@ body{
  padding: 8px;
 }
 
+textarea {
+   resize: none;
+}
+
   .parentBlock{
     margin-top: 6%;
 

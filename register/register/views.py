@@ -3,11 +3,10 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
 from register.Schemas.Checking import *
 from register.Schemas.Register import *
 from register.Schemas.Person import *
-
+from django.contrib import auth
 
 def home(request):
     return redirect("/register")
@@ -60,8 +59,20 @@ def work_material(request):
     return render(request, 'work_material.html')
 
 
-def work_material_links(request):
-    return render(request, 'work_material_links.html')
+def work_material_1(request):
+    return render(request, 'work_material_1.html')
+
+
+def work_material_2(request):
+    return render(request, 'work_material_2.html')
+
+
+def work_material_3(request):
+    return render(request, 'work_material_3.html')
+
+
+def work_material_6(request):
+    return render(request, 'work_material_6.html')
 
 
 def data_about_checking(request):
@@ -72,38 +83,33 @@ def public_council(request):
     return render(request, 'public_council.html')
 
 
-def public_council_links(request):
-    return render(request, 'public_council_links.html')
+def public_council_2(request):
+    return render(request, 'public_council_2.html')
 
 
-def register(request):
-
-    register1 = get_all_register()
-    search = "none"
-    is_search = False
-    is_empty = True
-
-    if request.method == "POST":
-        _search = request.POST['search']
-
-        register1 = find_register_by_person_name(_search)
-        if register1:
-            is_empty = False
-        is_search = True
-        search = _search
-
-    return render(request, 'register.html', locals())
+def public_council_3(request):
+    return render(request, 'public_council_3.html')
 
 
-def login(request):
+def public_council_4(request):
+    return render(request, 'public_council_4.html')
+
+
+def public_council_5(request):
+    return render(request, 'public_council_5.html')
+
+
+def log_in(request):
     if request.method == "GET":
         return render(request, 'login.html')
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(username=username, password=password)
+
+        user = auth.authenticate(username=username, password=password)
         if user:
-            login(request, user)
+            auth.login(request, user)
+            print ("Login successful")
             return render(request, 'register.html')
         else:
             print ("login error")
@@ -123,13 +129,32 @@ def signup(request):
 
         if password == password2:
             user = User.objects.create_user(username=username,
-                                            password=username,
+                                            password=password,
                                             email=email,
                                             first_name=firstname,
                                             last_name=lastname)
             user.is_staff = True
             user.save()
             return render(request, 'login.html')
+
+
+def register(request):
+
+    register1 = get_all_register()
+    search = "none"
+    is_search = False
+    is_empty = True
+
+    if request.method == "POST":
+        _search = request.POST['search']
+
+        register1 = find_register_by_person_name(_search)
+        if register1:
+            is_empty = False
+        is_search = True
+        search = _search
+
+    return render(request, 'register.html', locals())
 
 
 def admin_checking(request):
@@ -256,4 +281,21 @@ def admin_register_update(request, id):
 
 
 def admin_users(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        password2 = request.POST['password2']
+        email = request.POST['email']
+        firstname = request.POST['firstname']
+        lastname = request.POST['lastname']
+
+        if password == password2:
+            user = User.objects.create_user(username=username,
+                                            password=password,
+                                            email=email,
+                                            first_name=firstname,
+                                            last_name=lastname)
+            user.is_staff = True
+            user.save()
+
     return render(request, 'admin_users.html')
