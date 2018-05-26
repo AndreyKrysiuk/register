@@ -79,7 +79,28 @@
 
                     <br>
                      <!-- тута содержимое дива -->
-                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Додати запис</button>
+                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Додати запис</button><br><br>
+         <form class="example" action="/admin_register/" method='POST'>
+
+                        {% csrf_token %}
+                        <input type="text" placeholder="Прізвище, ім`я, по-батькові" name="search" id="search">
+                        <button type="submit">Пошук</button>
+                    </form>
+                    <br>
+                    <br>
+
+                    {% if is_search %}
+                         <br> <br><a href='/admin_register' type="button" class="btn btn-default">До основного списку</a>
+                        <h3 align="center">
+                                       {% if is_empty  %}
+                                       За вказаними параметрами пошуку "{{ search }}" інформація відсутня
+                                           {% else %}
+                                           Результати пошуку за запитом "{{ search }}"
+                                           {% endif %}
+                        </h3>
+
+
+                    {% endif %}
 
                     <div class="modal fade" id="myModal" role="dialog">
                         <div class="modal-dialog">
@@ -91,7 +112,7 @@
                                     <h4 class="modal-title">Додання нового запису</h4>
                                 </div>
                             <div class="modal-body">
-                               <form action='/admin_register/'  method='POST'  id="rForm">
+                               <form action='/admin_register/add/'  method='POST'  id="rForm">
                                    {% csrf_token %}
           			                ПІБ:<br>
                                    <input type='text'  name='name' class="myinput" id="name" /><br><br>
@@ -134,7 +155,7 @@
 
                         <tbody>
 
-                    {% for d in register %}
+                    {% for d in register1 %}
 
                         <tr>
                                 <td><span class="s-name">{{ forloop.counter }}.&nbsp{{ d.person_id.name }} </span></td>
@@ -166,9 +187,9 @@
                                             <input type='text'  name='region' class="myinput" id="region" placeholder="{{ d.person_id.region }}" value="{{ d.person_id.region }}"/><br><br>
                                             <input type='hidden'  name='isPretender' class="myinput" id="isPretender" value="False" />
 
-                                            Реквізити рішення про проведення перевірки:<br>
+                                            Відомості про результати перевірки:<br>
                                             <input type='text'  name='result' class="myinput" id="result" placeholder="{{ d.result }}" value="{{ d.result }}"/><br><br>
-                                             Дата подання Заяви про застосування заборон, визначених законом:<br>
+                                            Час протягом якого на особу поширюється заборона, передбачена Законом України "Про очищення влади":<br>
                                             <input type='text'  name='ban_time' class="myinput" id="ban_time" placeholder="{{ d.ban_time }}" value="{{ d.ban_time }}"/><br><br>
 
 
@@ -204,6 +225,10 @@
 
             </div>
         </div>
+
+
+
+
 
 </body>
 </html>

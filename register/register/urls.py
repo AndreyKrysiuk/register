@@ -39,8 +39,12 @@ urlpatterns = [
     url(r'^admin_checking/$', views.admin_checking),
     url(r'^admin_checking/delete/(?P<id>\w+)$', views.admin_checking_delete),
     url(r'^admin_checking/update/(?P<id>\w+)$', views.admin_checking_update),
+    url(r'^admin_checking/move/(?P<id>\w+)$', views.admin_checking_move),
+    url(r'^admin_checking/add/$', views.admin_checking_add),
     url(r'^admin_register/$', views.admin_register),
     url(r'^admin_register/delete/(?P<id>\w+)$', views.admin_register_delete),
     url(r'^admin_register/update/(?P<id>\w+)$', views.admin_register_update),
+    url(r'^admin_register/add/$', views.admin_register_add),
     url(r'^admin_users/$', views.admin_users),
+    url(r'^signup/$', views.signup)
 ]

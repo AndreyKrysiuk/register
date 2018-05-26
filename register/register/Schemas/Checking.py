@@ -1,5 +1,6 @@
 from mongoengine import *
 from register.Schemas.Person import *
+from register.Schemas.Register import *
 
 
 class Checking(Document):
@@ -10,10 +11,11 @@ class Checking(Document):
     resolution = StringField(max_length=240)
 
 
-def add_new_checking(person, solution, resolution='-', date_refuse_ban='-',  date_accept_ban='-'):
+def add_new_checking(person, solution, resolution='-', date_refuse_ban='-', date_accept_ban='-'):
     checking = Checking()
 
-    exists = Checking.objects(person_id=person, solution=solution, resolution=resolution, date_refuse_ban=date_refuse_ban, date_accept_ban=date_accept_ban)
+    exists = Checking.objects(person_id=person, solution=solution, resolution=resolution,
+                              date_refuse_ban=date_refuse_ban, date_accept_ban=date_accept_ban)
 
     if exists:
         return exists[0].id
@@ -60,7 +62,6 @@ def get_all_checking_where(is_pretendent):
 
 
 def update_checking(this_id, solution, resolution, date_refuse_ban, date_accept_ban):
-
     if this_id is None:
         return -1
 
@@ -68,7 +69,6 @@ def update_checking(this_id, solution, resolution, date_refuse_ban, date_accept_
 
     if checking is None:
         return -1
-
 
     if solution is not None:
         checking[0].update(**{"set__solution": solution})
@@ -85,8 +85,8 @@ def update_checking(this_id, solution, resolution, date_refuse_ban, date_accept_
     return 0
 
 
-def update_checking_with_person(this_id,name, category, job, position, region, solution, resolution, date_refuse_ban, date_accept_ban,isPretender=False):
-
+def update_checking_with_person(this_id, name, category, job, position, region, solution, resolution, date_refuse_ban,
+                                date_accept_ban, isPretender=False):
     if this_id is None:
         return -1
 
@@ -115,9 +115,26 @@ def update_checking_with_person(this_id,name, category, job, position, region, s
 def delete_checking(this_id):
     checking = Checking.objects(id=this_id)[0]
 
-    if checking is not None:
+    if checking:
         delete_person(checking.person_id.id)
         checking.delete()
         return 0
     else:
         return -1
+
+
+def move_checking(this_id, result, ban_time):
+    checking = Checking.objects(id=this_id)[0]
+
+    if checking:
+        add_new_register(checking.person_id, result, ban_time)
+        checking.delete()
+        return 0
+    else:
+        return -1
+
+
+def find_checking_by_person_name(request):
+    temp = Person.objects(name__icontains=request)
+    _return = Checking.objects(person_id__in=temp)
+    return _return

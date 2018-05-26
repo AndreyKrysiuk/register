@@ -80,6 +80,7 @@
 
 
 <div class="container">
+<h1 class="site-name"><img src="{% static "sources/title.png" %}"> Відомості про стан проходження перевірки</h1>                            </div><div class="container">
     <div class="panel panel-default">
 
         <div class="panel-body">
@@ -94,6 +95,27 @@
                 <div id="home" class="tab-pane fade in active">
                     <br>
                      <!-- тута содержимое дива -->
+                <form class="example" action="/checking/" method='POST'>
+                        {% csrf_token %}
+                        <input type="text" placeholder="Прізвище, ім`я, по-батькові" name="search" id="search">
+                        <button type="submit">Пошук</button>
+                    </form>
+                    <br>
+                    <br>
+        <br>
+
+                    {% if is_search %}
+                        <a href='/checking' type="button" class="btn btn-default">До основного списку</a>
+                        <h3 align="center">
+                                       {% if is_empty  %}
+                                       За вказаними параметрами пошуку "{{ search }}" інформація відсутня
+                                           {% else %}
+                                           Результати пошуку за запитом "{{ search }}"
+                                           {% endif %}
+                        </h3>
+
+
+                    {% endif %}
 
                     <!-- тута таблица -->
                     <div class="tab-content">
@@ -113,7 +135,8 @@
                         </thead>
                         <tbody>
 
-{% for d in checking_d %}
+{% for d in checking1 %}
+    {% if not d.person_id.isPretender %}
                         <tr class="open_item_acting">
                             <td class="text-right">{{ forloop.counter }}.</td>
                             <td>{{ d.person_id.region }}</td>
@@ -196,6 +219,7 @@
 
                             </td>
                         </tr>
+    {% endif %}
                     {% endfor %}
                         </tbody>
                     </table>
@@ -208,7 +232,27 @@
                 </div>
                 <div id="menu1" class="tab-pane fade">
                     <br>
+                    <form class="example" action="/checking/" method='POST'>
+                        {% csrf_token %}
+                        <input type="text" placeholder="Прізвище, ім`я, по-батькові" name="search" id="search">
+                        <button type="submit">Пошук</button>
+                    </form>
+                    <br>
+                    <br>
+        <br>
 
+                    {% if is_search %}
+                        <a href='/checking' type="button" class="btn btn-default">До основного списку</a>
+                        <h3 align="center">
+                                       {% if is_empty  %}
+                                       За вказаними параметрами пошуку "{{ search }}" інформація відсутня
+                                           {% else %}
+                                           Результати пошуку за запитом "{{ search }}"
+                                           {% endif %}
+                        </h3>
+
+
+                    {% endif %}
 
                     <!-- тута таблица -->
                     <div class="tab-content">
@@ -227,7 +271,8 @@
                         </tr>
                         </thead>
                         <tbody>
-                         {%  for d in checking_p %}
+                         {%  for d in checking1 %}
+                              {% if  d.person_id.isPretender %}
                         <tr class="open_item_acting">
                             <td class="text-right">{{ forloop.counter }}.</td>
                             <td>{{ d.person_id.region }}</td>
@@ -307,6 +352,7 @@
 
                             </td>
                         </tr>
+                             {% endif %}
                     {%  endfor %}
                         </tbody>
                     </table>

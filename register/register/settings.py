@@ -79,9 +79,11 @@ MONGODB_DATABASES = {
 
 
 DATABASES = {
-    'default': {'ENGINE': 'django.db.backends.dummy'}
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
-
 mongo_path = "mongodb://admin:avemaria@ds131800.mlab.com:31800/register"
 connect(host=mongo_path)
 

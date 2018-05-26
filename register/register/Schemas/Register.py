@@ -87,7 +87,7 @@ def update_register_with_person(this_id,name, category, job, position, region, r
 def delete_register(this_id):
     register = Register.objects(id=this_id)[0]
 
-    if register is not None:
+    if register:
         delete_person(register.person_id.id)
         register.delete()
         return 0
@@ -95,3 +95,7 @@ def delete_register(this_id):
         return -1
 
 
+def find_register_by_person_name(request):
+    temp = Person.objects(name__icontains=request)
+    _return = Register.objects(person_id__in=temp)
+    return _return

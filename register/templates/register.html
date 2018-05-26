@@ -80,14 +80,35 @@
 
 
 <div class="container">
+
+    <h1 class="site-name"><img src="{% static "sources/title.png" %}"> Єдиний державний реєстр осіб, щодо яких застосовано положення Закону України "Про очищення влади"</h1>                            </div><div class="container">
+
     <div class="panel panel-default">
 
         <div class="panel-body">
 
-
-
-
+                    <form class="example" action="/register/" method='POST'>
+                        {% csrf_token %}
+                        <input type="text" placeholder="Прізвище, ім`я, по-батькові" name="search" id="search">
+                        <button type="submit">Пошук</button>
+                    </form>
                     <br>
+                    <br>
+        <br>
+
+                    {% if is_search %}
+                        <a href='/register' type="button" class="btn btn-default">До основного списку</a>
+                        <h3 align="center">
+                                       {% if is_empty  %}
+                                       За вказаними параметрами пошуку "{{ search }}" інформація відсутня
+                                           {% else %}
+                                           Результати пошуку за запитом "{{ search }}"
+                                           {% endif %}
+                        </h3>
+
+
+                    {% endif %}
+
                      <!-- тута содержимое дива -->
 
                     <!-- тута таблица -->
@@ -107,7 +128,7 @@
 
                         <tbody>
 
-                    {% for d in register %}
+                    {% for d in register1 %}
 
                         <tr>
                                 <td><span class="s-name">{{ forloop.counter }}.&nbsp{{ d.person_id.name }} </span></td>

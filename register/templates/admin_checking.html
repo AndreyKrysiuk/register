@@ -96,7 +96,7 @@
                                     <h4 class="modal-title">Додання нового запису</h4>
                                 </div>
                             <div class="modal-body">
-                               <form action='/admin_checking/'  method='POST'  id="rForm">
+                               <form action='/admin_checking/add/'  method='POST'  id="rForm">
                                    {% csrf_token %}
 
           			                ПІБ:<br>
@@ -131,6 +131,29 @@
                     </div>
                 </div>
             </div>
+
+                 <br> <br>
+                <form class="example" action="/admin_checking/" method='POST'>
+                        {% csrf_token %}
+                        <input type="text" placeholder="Прізвище, ім`я, по-батькові" name="search" id="search">
+                        <button type="submit">Пошук</button>
+                    </form>
+                    <br>
+                    <br>
+
+
+                    {% if is_search %}
+                         <br> <br><a href='/admin_checking/' type="button" class="btn btn-default">До основного списку</a>
+                        <h3 align="center">
+                                       {% if is_empty  %}
+                                       За вказаними параметрами пошуку "{{ search }}" інформація відсутня
+                                           {% else %}
+                                           Результати пошуку за запитом "{{ search }}"
+                                           {% endif %}
+                        </h3>
+
+
+                    {% endif %}
                     <!-- тута таблица -->
                     <div class="tab-content">
                 <div class="tab-pane active" id="acting"><br>
@@ -149,7 +172,9 @@
                         </thead>
                         <tbody>
 
-{% for d in checking_d %}
+{% for d in checking1 %}
+
+    {% if not d.person_id.isPretender %}
                         <tr class="open_item_acting">
                             <td class="text-right">{{ forloop.counter }}.</td>
                             <td>{{ d.person_id.region }}</td>
@@ -203,6 +228,39 @@
 
                                     </div>
                                 </div>
+
+                                <button type="button" class="button" data-toggle="modal" data-target="#myModal{{ d.id }}2">Перемістити</button>
+                                <!-- Modal -->
+                                <div id="myModal{{ d.id }}2" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+
+                                     <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Заповніть необхідні поля:</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                            <form action='/admin_checking/move/{{ d.id }}'  method='POST'  id="rForm">
+                                            {% csrf_token %}
+                                             Відомості про результати перевірки:<br>
+                                            <input type='text'  name='result' class="myinput" id="result" placeholder="{{ d.result }}" value="{{ d.result }}"/><br><br>
+                                            Час протягом якого на особу поширюється заборона, передбачена Законом України "Про очищення влади":<br>
+                                            <input type='text'  name='ban_time' class="myinput" id="ban_time" placeholder="{{ d.ban_time }}" value="{{ d.ban_time }}"/><br><br>
+
+
+          			                        <input type="submit"  value='Змінити' /><br>
+          		                            </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--End Modal-->
+
                                 <!--End Modal-->
 
                                 <form action="/admin_checking/delete/{{ d.id }}" method="POST" id="delForm">
@@ -212,6 +270,7 @@
 
                             </td>
                         </tr>
+    {% endif %}
                     {% endfor %}
                         </tbody>
                     </table>
@@ -238,7 +297,7 @@
                                     <h4 class="modal-title">Додання нового запису</h4>
                                 </div>
                             <div class="modal-body">
-                               <form action='/admin_checking/'  method='POST'  id="rForm">
+                               <form action='/admin_checking/add/'  method='POST'  id="rForm">
                                    {% csrf_token %}
 
           			                ПІБ:<br>
@@ -272,7 +331,28 @@
                             </div>
                     </div>
                 </div>
-            </div>
+            </div> <br> <br>
+                <form class="example" action="/admin_checking/" method='POST'>
+                        {% csrf_token %}
+                        <input type="text" placeholder="Прізвище, ім`я, по-батькові" name="search" id="search">
+                        <button type="submit">Пошук</button>
+                    </form>
+                    <br>
+                    <br>
+
+
+                    {% if is_search %}
+                         <br> <br><a href='/admin_checking/' type="button" class="btn btn-default">До основного списку</a>
+                        <h3 align="center">
+                                       {% if is_empty  %}
+                                       За вказаними параметрами пошуку "{{ search }}" інформація відсутня
+                                           {% else %}
+                                           Результати пошуку за запитом "{{ search }}"
+                                           {% endif %}
+                        </h3>
+
+
+                    {% endif %}
                     <!-- тута таблица -->
                     <div class="tab-content">
                 <div class="tab-pane active" id="acting"><br>
@@ -290,7 +370,8 @@
                         </tr>
                         </thead>
                         <tbody>
-                         {%  for d in checking_p %}
+                         {%  for d in checking1 %}
+                             {% if d.person_id.isPretender %}
                         <tr class="open_item_acting">
                             <td class="text-right">{{ forloop.counter }}.</td>
                             <td>{{ d.person_id.region }}</td>
@@ -346,6 +427,38 @@
                                 </div>
                                 <!--End Modal-->
 
+                                <button type="button" class="button" data-toggle="modal" data-target="#myModal{{ d.id }}2">Перемістити</button>
+                                <!-- Modal -->
+                                <div id="myModal{{ d.id }}2" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+
+                                     <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Заповніть необхідні поля:</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                            <form action='/admin_checking/move/{{ d.id }}'  method='POST'  id="rForm">
+                                            {% csrf_token %}
+                                             Відомості про результати перевірки:<br>
+                                            <input type='text'  name='result' class="myinput" id="result" placeholder="{{ d.result }}" value="{{ d.result }}"/><br><br>
+                                            Час протягом якого на особу поширюється заборона, передбачена Законом України "Про очищення влади":<br>
+                                            <input type='text'  name='ban_time' class="myinput" id="ban_time" placeholder="{{ d.ban_time }}" value="{{ d.ban_time }}"/><br><br>
+
+
+          			                        <input type="submit"  value='Змінити' /><br>
+          		                            </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--End Modal-->
+
 
                                 <form action="/admin_checking/delete/{{ d.id }}" method="POST" id="delForm">
                                     {% csrf_token %}
@@ -354,6 +467,7 @@
 
                             </td>
                         </tr>
+                             {% endif %}
                     {%  endfor %}
                         </tbody>
                     </table>
