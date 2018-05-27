@@ -13,11 +13,21 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+
 	 <link rel="stylesheet" href="{%static "index.css"%}">
+     <link rel="stylesheet" href="{%static "panel.css"%}">
 
     <link rel="stylesheet" href="https://lustration.minjust.gov.ua/css/bootstrap.min.2.css">
     <style type="text/css"></style>
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+
+    {% if error_message %}
+        <script type="text/javascript">
+        $(window).on('load',function(){
+        $('#myModal').modal('show');
+        });
+        </script>
+    {% endif %}
 
 
 </head>
@@ -31,6 +41,26 @@
 			<path id="la-anim-6-loader" transform="translate(250, 250) scale(0.9)"/>
 		</svg>
 	</div>
+     <div class="my-panel">
+         {% if request.user.is_authenticated %}
+        <div class = "btn-group-vertical">
+        <br/>
+            <a href="/logout/" class="btn btn-primary btn-sm">
+              <span class="glyphicon glyphicon-log-out"></span> Вийти
+            </a>
+            <br/>
+            <a href="/admin_register/" class="btn btn-primary btn-sm">
+              <span class="glyphicon glyphicon-list-alt"></span> Редагування
+            </a>
+        </div>
+
+        {% else %}
+
+        <a href="/login/" class="btn btn-primary btn-sm">
+          <span class="glyphicon glyphicon-log-out"></span> Увійти
+        </a>
+        {% endif %}
+        </div>
 
     <div class="container white" style="position: relative;">
         <table border="0" cellpadding="0" cellspacing="0">
@@ -60,7 +90,9 @@
                     <li ><a href="/admin_checking">Перевірки</a></li>
                     <li><a href="/admin_register">Реєстр</a></li>
 
-					<li  class = "active"><a href='/admin_users'>Користувачі</a></li>
+					{% if request.user.is_superuser %}
+					<li class = "active"><a href='/admin_users'>Користувачі</a></li>
+                    {% endif %}
 				</ul>
             </div>
         </div>
@@ -122,6 +154,19 @@
                                         <label for="category">Повторіть пароль:</label>
                                         <input type='password'  name='password2' class="form-control"  id="password2"  />
                                     </div>
+                                    {% if error_message == 1 %}
+                                        <div class="alert alert-danger" role="alert">
+                                            Паролі не співпадають
+                                        </div>
+
+                                    {% endif %}
+
+                                    {% if error_message == 2 %}
+                                        <div class="alert alert-danger" role="alert">
+                                            Існуюче ім'я
+                                        </div>
+
+                                    {% endif %}
 
           			               <button type="button submit" class="btn btn-success">Зареєструвати</button><br>
           		                </form>
@@ -162,7 +207,7 @@
                                 <td>{{ u.email }}</td>
 
                                 <td>
-                                    <form action="/admin_register/ban_deban/{{ u.id }}" method="POST" id="delForm">
+                                    <form action="/admin_users/ban_deban/{{ u.username }}" method="POST" id="delForm">
                                     {% csrf_token %}
                                         {% if u.is_active %}
                                         <button type="button submit" class="btn btn-success">Забанити</button>
@@ -172,7 +217,7 @@
                                     </form>
                                 </td>
                             <td>
-                                <form action="/admin_register/admin_deadmin/{{ u.id }}" method="POST" id="delForm">
+                                <form action="/admin_users/admin_deadmin/{{ u.username }}" method="POST" id="delForm">
                                     {% csrf_token %}
                                     {% if u.is_superuser %}
                                         <button type="button submit" class="btn btn-success">Забрати права</button>
@@ -183,7 +228,7 @@
                             </td>
 
                                 <td>
-                                    <form action="/admin_register/delete/{{ u.id }}" method="POST" id="delForm">
+                                    <form action="/admin_users/delete/{{ u.username }}" method="POST" id="delForm">
                                     {% csrf_token %}
                                     <button type="button submit" class="btn btn-danger">Видалити</button>
                                     </form>

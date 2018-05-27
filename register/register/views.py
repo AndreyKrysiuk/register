@@ -1,12 +1,17 @@
 from django.shortcuts import render, redirect
 
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 
-from django.contrib.auth.models import User
 from register.Schemas.Checking import *
 from register.Schemas.Register import *
 from register.Schemas.Person import *
+
+from django.contrib.auth.models import User #Здесь все юзеры, тa модель нах не нужна
 from django.contrib import auth
+from django.contrib.auth import logout as django_logout
+from django.template import Context, loader
+
 
 def home(request):
     return redirect("/register")
@@ -99,45 +104,6 @@ def public_council_5(request):
     return render(request, 'public_council_5.html')
 
 
-def log_in(request):
-    if request.method == "GET":
-        return render(request, 'login.html')
-    if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
-
-        user = auth.authenticate(username=username, password=password)
-        if user:
-            auth.login(request, user)
-            print ("Login successful")
-            return render(request, 'register.html')
-        else:
-            print ("login error")
-            return render(request, 'login.html')
-
-
-def signup(request):
-    if request.method == "GET":
-        return render(request, 'signup.html')
-    if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
-        password2 = request.POST['password2']
-        email = request.POST['email']
-        firstname = request.POST['firstname']
-        lastname = request.POST['lastname']
-
-        if password == password2:
-            user = User.objects.create_user(username=username,
-                                            password=password,
-                                            email=email,
-                                            first_name=firstname,
-                                            last_name=lastname)
-            user.is_staff = True
-            user.save()
-            return render(request, 'login.html')
-
-
 def register(request):
 
     register1 = get_all_register()
@@ -157,23 +123,58 @@ def register(request):
     return render(request, 'register.html', locals())
 
 
+def login(request):
+    error_message = 0
+
+    if request.user.is_authenticated:
+        if request.user.is_active:
+            return redirect("/admin_register")
+        else:
+            logout(request)
+            error_message = 2
+    else:
+        if request.method == "POST":
+            username = request.POST['username']
+            password = request.POST['password']
+
+            user = auth.authenticate(username=username, password=password)
+            if user:
+                auth.login(request, user)
+                print("Login successful")
+                return redirect("/admin_register")
+
+            else:
+                print("login error")
+                error_message = 1
+
+    return render(request, 'login.html', locals())
+
+
+def logout(request):
+    auth.logout(request)
+    return redirect("/")
+
+
 def admin_checking(request):
-    checking1 = get_all_checking()
+    if request.user.is_authenticated:
+        checking1 = get_all_checking()
 
-    search = "none"
-    is_search = False
-    is_empty = True
+        search = "none"
+        is_search = False
+        is_empty = True
 
-    if request.method == "POST":
-        _search = request.POST['search']
+        if request.method == "POST":
+            _search = request.POST['search']
 
-        checking1 = find_checking_by_person_name(_search)
-        if checking1:
-            is_empty = False
-        is_search = True
-        search = _search
+            checking1 = find_checking_by_person_name(_search)
+            if checking1:
+                is_empty = False
+            is_search = True
+            search = _search
 
-    return render(request, 'admin_checking.html', locals())
+        return render(request, 'admin_checking.html', locals())
+    else:
+        return HttpResponse("Малувато прав")
 
 
 def admin_checking_add(request):
@@ -213,7 +214,6 @@ def admin_checking_update(request, id):
 
     update_checking_with_person(id, name, category, job, position, region, solution, resolution, date_refuse_ban, date_accept_ban, isPretender)
 
-    update_checking(id,solution,resolution,date_refuse_ban,date_accept_ban)
     return redirect("/admin_checking")
 
 
@@ -225,23 +225,25 @@ def admin_checking_move(request, id):
 
 
 def admin_register(request):
+    if request.user.is_authenticated:
+        register1 = get_all_register()
 
-    register1 = get_all_register()
+        search = "none"
+        is_search = False
+        is_empty = True
 
-    search = "none"
-    is_search = False
-    is_empty = True
+        if request.method == "POST":
+            _search = request.POST['search']
 
-    if request.method == "POST":
-        _search = request.POST['search']
+            register1 = find_register_by_person_name(_search)
+            if register1:
+                is_empty = False
+            is_search = True
+            search = _search
 
-        register1 = find_register_by_person_name(_search)
-        if register1:
-            is_empty = False
-        is_search = True
-        search = _search
-
-    return render(request, 'admin_register.html',locals())
+        return render(request, 'admin_register.html', locals())
+    else:
+        return HttpResponse("Малувато прав")
 
 
 def admin_register_add(request):
@@ -281,21 +283,90 @@ def admin_register_update(request, id):
 
 
 def admin_users(request):
+    if request.user.is_authenticated and request.user.is_superuser:
+        error_message = 0
+        users = User.objects.all()
+
+        if request.method == "POST":
+            username = request.POST['username']
+            password = request.POST['password']
+            password2 = request.POST['password2']
+            email = request.POST['email']
+            firstname = request.POST['firstname']
+            lastname = request.POST['lastname']
+
+            if User.objects.filter(username=username).exists():
+                error_message = 2
+            else:
+                if password == password2:
+                    user = User.objects.create_user(username=username,
+                                                    password=password,
+                                                    email=email,
+                                                    first_name=firstname,
+                                                    last_name=lastname)
+                    user.is_staff = True
+                    user.save()
+                else:
+                    error_message = 1
+
+        return render(request, 'admin_users.html', locals())
+    else:
+        return HttpResponse("Малувато прав")
+
+
+def admin_users_admin_deadmin(request, username):
     if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
-        password2 = request.POST['password2']
-        email = request.POST['email']
-        firstname = request.POST['firstname']
-        lastname = request.POST['lastname']
+        try:
+            u = User.objects.get(username=username)
+            if u.is_superuser:
+                u.is_superuser = False
+            else:
+                u.is_superuser = True
+            u.save()
 
-        if password == password2:
-            user = User.objects.create_user(username=username,
-                                            password=password,
-                                            email=email,
-                                            first_name=firstname,
-                                            last_name=lastname)
-            user.is_staff = True
-            user.save()
+        except User.DoesNotExist:
+            print("User does not exist")
+    return redirect("/admin_users")
 
-    return render(request, 'admin_users.html')
+
+def admin_users_ban_deban(request, username):
+    if request.method == "POST":
+        try:
+            u = User.objects.get(username=username)
+            if u.is_active:
+                u.is_active = False
+            else:
+                u.is_active = True
+            u.save()
+
+        except User.DoesNotExist:
+            print("User does not exist")
+    return redirect("/admin_users")
+
+
+def admin_users_delete(request, username):
+    if request.method == "POST":
+        try:
+            u = User.objects.get(username=username)
+            u.delete()
+            print("The user is deleted")
+        except User.DoesNotExist:
+            print("User does not exist")
+
+    return redirect("/admin_users")
+
+
+def error404(request):
+    template = loader.get_template('404.htm')
+    context = Context({
+        'message': 'All: %s' % request,
+        })
+    return HttpResponse(content=template.render(context), content_type='text/html; charset=utf-8', status=404)
+
+
+def error500(request):
+    template = loader.get_template('500.htm')
+    context = Context({
+        'message': 'All: %s' % request,
+        })
+    return HttpResponse(content=template.render(context), content_type='text/html; charset=utf-8', status=500)

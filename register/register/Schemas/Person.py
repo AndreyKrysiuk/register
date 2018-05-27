@@ -5,10 +5,9 @@ class Person(Document):
     name = StringField(required=True, max_length=60)
     category = StringField(max_length=120)
     job = StringField(max_length=120)
-    position = StringField(max_length=120)
+    position = StringField(max_length=300)
     region = StringField(max_length=60)
     isPretender = BooleanField(required=True)
-
 
 
 def update_person(id, name, category, job, position, region, isPretender):

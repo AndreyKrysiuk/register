@@ -18,6 +18,8 @@ from django.urls import path
 from register import views
 from django.conf.urls import url
 
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^home/$', views.home),
@@ -41,7 +43,7 @@ urlpatterns = [
     url(r'^public_council_4/$', views.public_council_4),
     url(r'^public_council_5/$', views.public_council_5),
     url(r'^register/$', views.register),
-    url(r'^login/$', views.log_in),
+    url(r'^login/$', views.login),
     url(r'^admin_checking/$', views.admin_checking),
     url(r'^admin_checking/delete/(?P<id>\w+)$', views.admin_checking_delete),
     url(r'^admin_checking/update/(?P<id>\w+)$', views.admin_checking_update),
@@ -52,5 +54,11 @@ urlpatterns = [
     url(r'^admin_register/update/(?P<id>\w+)$', views.admin_register_update),
     url(r'^admin_register/add/$', views.admin_register_add),
     url(r'^admin_users/$', views.admin_users),
-    url(r'^signup/$', views.signup)
+    url(r'^admin_users/admin_deadmin/(?P<username>\w+)$', views.admin_users_admin_deadmin),
+    url(r'^admin_users/ban_deban/(?P<username>\w+)$', views.admin_users_ban_deban),
+    url(r'^admin_users/delete/(?P<username>\w+)$', views.admin_users_delete),
+    url(r'^logout/$', views.logout)
 ]
+
+handler404 = views.error404
+handler500 = views.error500

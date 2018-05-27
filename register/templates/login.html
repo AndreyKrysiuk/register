@@ -50,27 +50,33 @@
      <div class="hBlock white">
             <h1 align="center">Авторизація</h1>
 
-                <center>
+
               <form action='/login/'  method='POST'  id="rForm">
                    {% csrf_token %}
-          			Ім'я користувача:
-
-                <br/>
-          			<input type='text'  name='username' class="myinput" id="username" />
-
-                <br/>
- <br/>
-          			Пароль:
-
-                <br/>
-          			<input type='password'  name='password' class="myinput"  id="password"  />
-                 <br/>
-
-              <br />
-          			<input type="submit" class="knopka" value='Авторизуватися' />
+                  <div class="form-group">
+                      <label for="username">Ім'я користувача:</label>
 
 
-          		</form></center>
+                      <input type='text'  name='username' class="form-control" id="username" /></div>
+
+
+                    <div class="form-group">
+                        <label for="password">Пароль:</label>
+
+
+                        <input type='password'  name='password' class="form-control"  id="password"  /></div>
+                    {% if error_message == 1 %}
+                    <div class="alert alert-danger" role="alert">
+                        Помилка доступу
+                    </div>
+                    {% endif %}
+
+
+
+          			<input type="submit" class="knopka" value='Авторизуватися' /> <br />
+
+
+          		</form>
 
 
       </div>
