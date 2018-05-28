@@ -5,34 +5,9 @@ class Person(Document):
     name = StringField(required=True, max_length=60)
     category = StringField(max_length=120)
     job = StringField(max_length=120)
-    position = StringField(max_length=300)
+    position = StringField(max_length=120)
     region = StringField(max_length=60)
     isPretender = BooleanField(required=True)
-
-
-def update_person(id, name, category, job, position, region, isPretender):
-    person = Person.objects(id=id)[0]
-    if person is None:
-        return -1
-
-    person.update(**{"set__name": name})
-    person.update(**{"set__category": category})
-    person.update(**{"set__job": job})
-    person.update(**{"set__position": position})
-    person.update(**{"set__region": region})
-
-    if isPretender is not None:
-        person.update(**{"set__isPretender": isPretender})
-    return 0
-
-
-def delete_person(id):
-    person = Person.objects(_id=id)
-    if person is None:
-        return -1
-    else:
-        person.delete()
-        return 0
 
 
 def get_person(id):
@@ -40,7 +15,7 @@ def get_person(id):
     if person is None:
         return -1
     else:
-        return person[0]
+        return person
 
 
 def get_all_persons():
@@ -55,11 +30,31 @@ def add_new_person(name, category, job, position, region, isPretender=False):
     if exists:
         return exists[0]
 
-    person.name = name
-    person.category = category
-    person.job = job
-    person.position = position
-    person.region = region
+    if len(name) != 0 and len(name) < 60:
+        person.name = name
+    else:
+        return -1
+
+    if len(category) != 0 and len(name) < 120:
+        person.category = category
+    else:
+        return -1
+
+    if len(job) != 0 and len(job) < 120:
+        person.job = job
+    else:
+        return -1
+
+    if len(position) != 0 and len(position) < 120:
+        person.position = position
+    else:
+        return -1
+
+    if len(region) != 0 and len(region) < 60:
+        person.region = region
+    else:
+        return -1
+
     if isPretender is not None:
         person.isPretender = str2bool(isPretender)
     else:
@@ -69,27 +64,42 @@ def add_new_person(name, category, job, position, region, isPretender=False):
 
 
 def update_person(id, name, category, job, position, region, isPretender=False):
-    person = Person.objects(id=id)[0]
+    try:
+        person = Person.objects.get(id=id)
+    except Person.DoesNotExist:
+        person = None
+
     if person is None:
         return -1
 
-    if name is not None:
+    if len(name) != 0 and len(name) < 60:
         person.update(**{"set__name": name})
+    else:
+        return -1
 
-    if category is not None:
+    if len(category) != 0 and len(name) < 120:
         person.update(**{"set__category": category})
-
-    if job is not None:
+    else:
+        return -1
+    if len(job) != 0 and len(job) < 120:
         person.update(**{"set__job": job})
+    else:
+        return -1
 
-    if position is not None:
+    if len(position) != 0 and len(position) < 120:
         person.update(**{"set__position": position})
+    else:
+        return -1
 
-    if region is not None:
+    if len(region) != 0 and len(region) < 60:
         person.update(**{"set__region": region})
+    else:
+        return -1
 
     if isPretender is not None:
         person.update(**{"set__isPretender": str2bool(isPretender)})
+    else:
+        return -1
     return 0
 
 
@@ -100,18 +110,6 @@ def delete_person(id):
     else:
         person.delete()
         return 0
-
-
-def get_person(id):
-    person = Person.objects(id=id)
-    if person is None:
-        return -1
-    else:
-        return person
-
-
-def get_all_persons():
-    return Person.objects()
 
 
 def get_officials():

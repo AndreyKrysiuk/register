@@ -34,20 +34,17 @@
 	</div>
      <div class="my-panel">
          {% if request.user.is_authenticated %}
-        <div class = "btn-group-vertical">
-        <br/>
-            <a href="/logout/" class="btn btn-primary btn-sm">
-              <span class="glyphicon glyphicon-log-out"></span> Вийти
-            </a>
-            <br/>
-            <a href="/admin_register/" class="btn btn-primary btn-sm">
-              <span class="glyphicon glyphicon-list-alt"></span> Редагування
-            </a>
+
+        <div class="btn-group-vertical">
+        <a href="/admin_register/" class="btn btn-primary btn-sm">
+          <span class="glyphicon glyphicon-list-alt"></span> Редагування
+        </a>
+        <a href="/logout/" class="btn btn-danger btn-sm">
+          <span class="glyphicon glyphicon-log-out"></span> Вийти
+        </a>
         </div>
-
         {% else %}
-
-        <a href="/login/" class="btn btn-primary btn-sm">
+        <a href="/login/" class="btn btn-success btn-sm">
           <span class="glyphicon glyphicon-log-out"></span> Увійти
         </a>
         {% endif %}
@@ -159,7 +156,7 @@
 {% for d in checking1 %}
     {% if not d.person_id.isPretender %}
                         <tr class="open_item_acting">
-                            <td class="text-right">{{ forloop.counter1 }}.</td>
+                            <td class="text-right"></td>
                             <td>{{ d.person_id.region }}</td>
                             <td>{{ d.person_id.job }}</td>
                             <td>{{ d.person_id.name }}</td>
@@ -240,6 +237,7 @@
 
                             </td>
                         </tr>
+
     {% endif %}
                     {% endfor %}
                         </tbody>
@@ -295,7 +293,7 @@
                          {%  for d in checking1 %}
                               {% if  d.person_id.isPretender %}
                         <tr class="open_item_acting">
-                            <td class="text-right">{{ forloop.counter2 }}.</td>
+                            <td class="text-right"></td>
                             <td>{{ d.person_id.region }}</td>
                             <td>{{ d.person_id.job }}</td>
                             <td>{{ d.person_id.name }}</td>

@@ -63,7 +63,7 @@ def update_register(this_id, result, ban_time):
     return 0
 
 
-def update_register_with_person(this_id,name, category, job, position, region, result, ban_time, isPretender=False):
+def update_register_with_person(this_id, name, category, job, position, region, result, ban_time, isPretender=False):
 
     if this_id is None:
         return -1
@@ -73,12 +73,13 @@ def update_register_with_person(this_id,name, category, job, position, region, r
     if not register:
         return -1
 
-    update_person(register.person_id.id, name, category, job, position, region, isPretender)
+    if update_person(register.person_id.id, name, category, job, position, region, isPretender) == -1:
+        return -1
 
-    if result is not None:
+    if result is not None and len(result) < 240:
         register.update(**{"set__result": result})
 
-    if ban_time is not None:
+    if ban_time is not None and len(result) < 90:
         register.update(**{"set__ban_time": ban_time})
 
     return 0
@@ -88,7 +89,8 @@ def delete_register(this_id):
     register = Register.objects(id=this_id)[0]
 
     if register:
-        delete_person(register.person_id.id)
+        if delete_person(register.person_id.id) == -1:
+            return -1
         register.delete()
         return 0
     else:

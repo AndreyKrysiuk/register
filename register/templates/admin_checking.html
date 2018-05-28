@@ -33,20 +33,17 @@
 	</div>
      <div class="my-panel">
          {% if request.user.is_authenticated %}
-        <div class = "btn-group-vertical">
-        <br/>
-            <a href="/logout/" class="btn btn-primary btn-sm">
-              <span class="glyphicon glyphicon-log-out"></span> Вийти
-            </a>
-            <br/>
-            <a href="/admin_register/" class="btn btn-primary btn-sm">
-              <span class="glyphicon glyphicon-list-alt"></span> Редагування
-            </a>
+
+        <div class="btn-group-vertical">
+        <a href="/admin_register/" class="btn btn-primary btn-sm">
+          <span class="glyphicon glyphicon-list-alt"></span> Редагування
+        </a>
+        <a href="/logout/" class="btn btn-danger btn-sm">
+          <span class="glyphicon glyphicon-log-out"></span> Вийти
+        </a>
         </div>
-
         {% else %}
-
-        <a href="/login/" class="btn btn-primary btn-sm">
+        <a href="/login/" class="btn btn-success btn-sm">
           <span class="glyphicon glyphicon-log-out"></span> Увійти
         </a>
         {% endif %}
@@ -123,39 +120,39 @@
 
           			               <div class="form-group">
           			               <label for="name">ПІБ:</label>
-                                   <input type='text'  name='name' class="form-control" id="name" />
+                                   <input type='text'  name='name' class="form-control" id="name" required="true" maxlength="60"/>
                                    </div>
                                    <div class="form-group">
                                    <label for="category">Категорія ограну перевірки:</label>
-                                   <input type='text'  name='category' class="form-control" id="category" />
+                                   <input type='text'  name='category' class="form-control" id="category" required="true" maxlength="120"/>
                                    </div>
                                    <div class="form-group">
                                     <label for="job">Назва органу перевірки:</label>
-                                   <input type='text'  name='job' class="form-control" id="job" /></div>
+                                   <input type='text'  name='job' class="form-control" id="job" required="true" maxlength="120"/></div>
                                    <div class="form-group">
                                     <label for="position">Посада:</label>
-                                   <input type='text'  name='position' class="form-control" id="position" /></div>
+                                   <input type='text'  name='position' class="form-control" id="position" required="true" maxlength="120"/></div>
                                    <div class="form-group">
                                     <label for="region">Регіон:</label>
-                                   <input type='text'  name='region' class="form-control" id="region" /></div>
+                                   <input type='text'  name='region' class="form-control" id="region" required="true" maxlength="60"/></div>
                                    <input type='hidden'  name='isPretender' class="form-control" id="isPretender" value="False" />
 
                                    <div class="form-group">
                                    <label for="solution">Реквізити рішення про проведення перевірки:</label>
-                                   <input type='text'  name='solution' class="form-control" id="solution" /></div>
+                                   <input type='text'  name='solution' class="form-control" id="solution" required="true" maxlength="240"/></div>
 
                                        <div class="form-group">
                                     <label for="date_accept_ban">Дата подання Заяви про застосування заборон, визначених законом:</label>
-                                   <input type='text'  name='date_accept_ban' class="form-control" id="date_accept_ban" /></div>
+                                   <input type='text'  name='date_accept_ban' class="form-control" id="date_accept_ban" value="-" maxlength="60"/></div>
 
                                            <div class="form-group">
                                     <label for="date_refuse_ban">Дата подання Заяви про не застосування заборон, визначених законом:</label>
-                                   <input type='text'  name='date_refuse_ban' class="form-control" id="date_refuse_ban" /></div>
+                                   <input type='text'  name='date_refuse_ban' class="form-control" id="date_refuse_ban" value="-" maxlength="60"/></div>
 
                                                <div class="form-group">
                                     <label for="resolution">Висновок про результати перевірки:</label>
                                   <!-- <input type='text'  name='resolution' class="form-control" id="resolution" />-->
-                                   <textarea style="resize: vertical" rows="3" name='resolution' class="form-control" id="resolution"></textarea>
+                                   <textarea style="resize: vertical" rows="3" name='resolution' class="form-control" id="resolution" maxlength="240" >-</textarea>
 
                                                </div>
 
@@ -206,11 +203,13 @@
                         </thead>
                         <tbody>
 
+
+
 {% for d in checking1 %}
 
     {% if not d.person_id.isPretender %}
                         <tr class="open_item_acting">
-                            <td class="text-right">{{ forloop.counter1 }}.</td>
+                            <td class="text-right"></td>
                             <td>{{ d.person_id.region }}</td>
                             <td>{{ d.person_id.job }}</td>
                             <td>{{ d.person_id.name }}</td>
@@ -233,36 +232,36 @@
                                             {% csrf_token %}
           			                        <div class="form-group">
           			                        <label for="name">ПІБ:</label>
-                                            <input type='text'  name='name' class="form-control" id="name" placeholder="{{ d.person_id.name }}" value="{{ d.person_id.name }}"/></div>
+                                            <input type='text'  name='name' class="form-control" id="name" placeholder="{{ d.person_id.name }}" value="{{ d.person_id.name }}" required="true" maxlength="60"/></div>
 
                                                     <div class="form-group">
                                             <label for="category">Категорія ограну перевірки:</label>
-                                            <input type='text'  name='category' class="form-control" id="category" placeholder="{{ d.person_id.category }}" value="{{ d.person_id.category }}"/></div>
+                                            <input type='text'  name='category' class="form-control" id="category" placeholder="{{ d.person_id.category }}" value="{{ d.person_id.category }}" required="true" maxlength="120"/></div>
                                                         <div class="form-group">
                                             <label for="job">Назва органу перевірки:</label>
-                                            <input type='text'  name='job' class="form-control" id="job" placeholder="{{ d.person_id.job }}" value="{{ d.person_id.job }}"/></div>
+                                            <input type='text'  name='job' class="form-control" id="job" placeholder="{{ d.person_id.job }}" value="{{ d.person_id.job }}" required="true" maxlength="120"/></div>
 
                                                             <div class="form-group">
                                             <label for="position">Посада:</label>
-                                            <input type='text'  name='position' class="form-control" id="position" placeholder="{{ d.person_id.position }}" value="{{ d.person_id.position }}"/></div>
+                                            <input type='text'  name='position' class="form-control" id="position" placeholder="{{ d.person_id.position }}" value="{{ d.person_id.position }}" required="true" maxlength="120"/></div>
 
                                                                 <div class="form-group">
                                             <label for="region">Регіон:</label>
-                                            <input type='text'  name='region' class="form-control" id="region" placeholder="{{ d.person_id.region }}" value="{{ d.person_id.region }}"/></div>
+                                            <input type='text'  name='region' class="form-control" id="region" placeholder="{{ d.person_id.region }}" value="{{ d.person_id.region }}" required="true" maxlength="60"/></div>
                                             <input type='hidden'  name='isPretender' class="form-control" id="isPretender" value="False" />
                                                  <div class="form-group">
                                              <label for="region">Реквізити рішення про проведення перевірки:</label>
-                                            <input type='text'  name='solution' class="form-control" id="solution" placeholder="{{ d.solution }}" value="{{ d.solution }}"/></div>
+                                            <input type='text'  name='solution' class="form-control" id="solution" placeholder="{{ d.solution }}" value="{{ d.solution }}" required="true" maxlength="240"/></div>
                                                       <div class="form-group">
                                               <label for="region">Дата подання Заяви про застосування заборон, визначених законом:</label>
-                                            <input type='text'  name='date_accept_ban' class="form-control" id="date_accept_ban" placeholder="{{ d.date_accept_ban }}" value="{{ d.date_accept_ban }}"/></div>
+                                            <input type='text'  name='date_accept_ban' class="form-control" id="date_accept_ban" placeholder="{{ d.date_accept_ban }}" value="{{ d.date_accept_ban }}" maxlength="60"/></div>
                                                            <div class="form-group">
                                              <label for="region">Дата подання Заяви про не застосування заборон, визначених законом:</label>
-                                            <input type='text'  name='date_refuse_ban' class="form-control" id="date_refuse_ban" placeholder="{{ d.date_refuse_ban }}" value="{{ d.date_refuse_ban }}"/></div>
+                                            <input type='text'  name='date_refuse_ban' class="form-control" id="date_refuse_ban" placeholder="{{ d.date_refuse_ban }}" value="{{ d.date_refuse_ban }}" maxlength="60"/></div>
                                                                 <div class="form-group">
 
                                              <label for="region">Висновок про результати перевірки:</label>
-                                            <textarea style="resize: vertical" rows="3" name='resolution' class="form-control" id="resolution">{{ d.resolution }}</textarea>
+                                            <textarea style="resize: vertical" rows="3" name='resolution' class="form-control" id="resolution" maxlength="240">{{ d.resolution }}</textarea>
                                                                 </div>
 
           			                        <button type="button submit" class="btn btn-success">Змінити</button><br>
@@ -322,6 +321,7 @@
 
                             </td>
                         </tr>
+
     {% endif %}
                     {% endfor %}
                         </tbody>
@@ -354,39 +354,39 @@
 
           			               <div class="form-group">
           			               <label for="name">ПІБ:</label>
-                                   <input type='text'  name='name' class="form-control" id="name" />
+                                   <input type='text'  name='name' class="form-control" id="name" required="true" maxlength="60"/>
                                    </div>
                                    <div class="form-group">
                                    <label for="category">Категорія ограну перевірки:</label>
-                                   <input type='text'  name='category' class="form-control" id="category" />
+                                   <input type='text'  name='category' class="form-control" id="category" required="true" maxlength="120"/>
                                    </div>
                                    <div class="form-group">
                                     <label for="job">Назва органу перевірки:</label>
-                                   <input type='text'  name='job' class="form-control" id="job" /></div>
+                                   <input type='text'  name='job' class="form-control" id="job" required="true" maxlength="120"/></div>
                                    <div class="form-group">
                                     <label for="position">Посада:</label>
-                                   <input type='text'  name='position' class="form-control" id="position" /></div>
+                                   <input type='text'  name='position' class="form-control" id="position" required="true" maxlength="120"/></div>
                                    <div class="form-group">
                                     <label for="region">Регіон:</label>
-                                   <input type='text'  name='region' class="form-control" id="region" /></div>
+                                   <input type='text'  name='region' class="form-control" id="region" required="true" maxlength="60"/></div>
                                    <input type='hidden'  name='isPretender' class="form-control" id="isPretender" value="True" />
 
                                    <div class="form-group">
                                    <label for="solution">Реквізити рішення про проведення перевірки:</label>
-                                   <input type='text'  name='solution' class="form-control" id="solution" /></div>
+                                   <input type='text'  name='solution' class="form-control" id="solution" required="true" maxlength="240"/></div>
 
                                        <div class="form-group">
                                     <label for="date_accept_ban">Дата подання Заяви про застосування заборон, визначених законом:</label>
-                                   <input type='text'  name='date_accept_ban' class="form-control" id="date_accept_ban" /></div>
+                                   <input type='text'  name='date_accept_ban' class="form-control" id="date_accept_ban" value="-" maxlength="60"/></div>
 
                                            <div class="form-group">
                                     <label for="date_refuse_ban">Дата подання Заяви про не застосування заборон, визначених законом:</label>
-                                   <input type='text'  name='date_refuse_ban' class="form-control" id="date_refuse_ban" /></div>
+                                   <input type='text'  name='date_refuse_ban' class="form-control" id="date_refuse_ban" value="-" maxlength="60"/></div>
 
                                                <div class="form-group">
                                     <label for="resolution">Висновок про результати перевірки:</label>
                                   <!-- <input type='text'  name='resolution' class="form-control" id="resolution" />-->
-                                   <textarea style="resize: vertical" rows="3" name='resolution' class="form-control" id="resolution"></textarea>
+                                   <textarea style="resize: vertical" rows="3" name='resolution' class="form-control" id="resolution" maxlength="240" >-</textarea>
 
                                                </div>
 
@@ -438,7 +438,7 @@
                          {%  for d in checking1 %}
                              {% if d.person_id.isPretender %}
                         <tr class="open_item_acting">
-                            <td class="text-right">{{ forloop.counter2 }}.</td>
+                            <td class="text-right"></td>
                             <td>{{ d.person_id.region }}</td>
                             <td>{{ d.person_id.job }}</td>
                             <td>{{ d.person_id.name }}</td>
@@ -461,36 +461,36 @@
                                             {% csrf_token %}
           			                        <div class="form-group">
           			                        <label for="name">ПІБ:</label>
-                                            <input type='text'  name='name' class="form-control" id="name" placeholder="{{ d.person_id.name }}" value="{{ d.person_id.name }}"/></div>
+                                            <input type='text'  name='name' class="form-control" id="name" placeholder="{{ d.person_id.name }}" value="{{ d.person_id.name }}" required="true" maxlength="60"/></div>
 
                                                     <div class="form-group">
                                             <label for="category">Категорія ограну перевірки:</label>
-                                            <input type='text'  name='category' class="form-control" id="category" placeholder="{{ d.person_id.category }}" value="{{ d.person_id.category }}"/></div>
+                                            <input type='text'  name='category' class="form-control" id="category" placeholder="{{ d.person_id.category }}" value="{{ d.person_id.category }}" required="true" maxlength="120"/></div>
                                                         <div class="form-group">
                                             <label for="job">Назва органу перевірки:</label>
-                                            <input type='text'  name='job' class="form-control" id="job" placeholder="{{ d.person_id.job }}" value="{{ d.person_id.job }}"/></div>
+                                            <input type='text'  name='job' class="form-control" id="job" placeholder="{{ d.person_id.job }}" value="{{ d.person_id.job }}" required="true" maxlength="120"/></div>
 
                                                             <div class="form-group">
                                             <label for="position">Посада:</label>
-                                            <input type='text'  name='position' class="form-control" id="position" placeholder="{{ d.person_id.position }}" value="{{ d.person_id.position }}"/></div>
+                                            <input type='text'  name='position' class="form-control" id="position" placeholder="{{ d.person_id.position }}" value="{{ d.person_id.position }}" required="true" maxlength="120"/></div>
 
                                                                 <div class="form-group">
                                             <label for="region">Регіон:</label>
-                                            <input type='text'  name='region' class="form-control" id="region" placeholder="{{ d.person_id.region }}" value="{{ d.person_id.region }}"/></div>
+                                            <input type='text'  name='region' class="form-control" id="region" placeholder="{{ d.person_id.region }}" value="{{ d.person_id.region }}" required="true" maxlength="60"/></div>
                                             <input type='hidden'  name='isPretender' class="form-control" id="isPretender" value="True" />
                                                  <div class="form-group">
                                              <label for="region">Реквізити рішення про проведення перевірки:</label>
-                                            <input type='text'  name='solution' class="form-control" id="solution" placeholder="{{ d.solution }}" value="{{ d.solution }}"/></div>
+                                            <input type='text'  name='solution' class="form-control" id="solution" placeholder="{{ d.solution }}" value="{{ d.solution }}" required="true" maxlength="240"/></div>
                                                       <div class="form-group">
                                               <label for="region">Дата подання Заяви про застосування заборон, визначених законом:</label>
-                                            <input type='text'  name='date_accept_ban' class="form-control" id="date_accept_ban" placeholder="{{ d.date_accept_ban }}" value="{{ d.date_accept_ban }}"/></div>
+                                            <input type='text'  name='date_accept_ban' class="form-control" id="date_accept_ban" placeholder="{{ d.date_accept_ban }}" value="{{ d.date_accept_ban }}" maxlength="60"/></div>
                                                            <div class="form-group">
                                              <label for="region">Дата подання Заяви про не застосування заборон, визначених законом:</label>
-                                            <input type='text'  name='date_refuse_ban' class="form-control" id="date_refuse_ban" placeholder="{{ d.date_refuse_ban }}" value="{{ d.date_refuse_ban }}"/></div>
+                                            <input type='text'  name='date_refuse_ban' class="form-control" id="date_refuse_ban" placeholder="{{ d.date_refuse_ban }}" value="{{ d.date_refuse_ban }}" maxlength="60"/></div>
                                                                 <div class="form-group">
 
                                              <label for="region">Висновок про результати перевірки:</label>
-                                            <textarea style="resize: vertical" rows="3" name='resolution' class="form-control" id="resolution">{{ d.resolution }}</textarea>
+                                            <textarea style="resize: vertical" rows="3" name='resolution' class="form-control" id="resolution" maxlength="240">{{ d.resolution }}</textarea>
                                                                 </div>
 
           			                        <button type="button submit" class="btn btn-success">Змінити</button><br>

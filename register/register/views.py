@@ -35,6 +35,8 @@ def checking(request):
     search = "none"
     is_search = False
     is_empty = True
+    counter_1 = 1
+    counter_2 = 1
 
     if request.method == "POST":
         _search = request.POST['search']
@@ -151,7 +153,8 @@ def login(request):
 
 
 def logout(request):
-    auth.logout(request)
+    if request.user.is_authenticated:
+        auth.logout(request)
     return redirect("/")
 
 
@@ -174,53 +177,66 @@ def admin_checking(request):
 
         return render(request, 'admin_checking.html', locals())
     else:
-        return HttpResponse("Малувато прав")
+        return render(request, '401.html')
 
 
 def admin_checking_add(request):
-    if request.method == "POST":
-        name = request.POST['name']
-        category = request.POST['category']
-        job = request.POST['job']
-        position = request.POST['position']
-        region = request.POST['region']
-        isPretender = request.POST['isPretender']
-        solution = request.POST['solution']
-        date_accept_ban = request.POST['date_accept_ban']
-        date_refuse_ban = request.POST['date_refuse_ban']
-        resolution = request.POST['resolution']
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            name = request.POST['name']
+            category = request.POST['category']
+            job = request.POST['job']
+            position = request.POST['position']
+            region = request.POST['region']
+            isPretender = request.POST['isPretender']
+            solution = request.POST['solution']
+            date_accept_ban = request.POST['date_accept_ban']
+            date_refuse_ban = request.POST['date_refuse_ban']
+            resolution = request.POST['resolution']
 
-        add_new_checking(add_new_person(name, category, job, position, region, isPretender), solution, resolution,
-                         date_accept_ban, date_refuse_ban)
+            if add_new_checking(add_new_person(name, category, job, position, region, isPretender), solution, resolution,
+                             date_accept_ban, date_refuse_ban) == -1:
+                return render(request, '500.html')
     return redirect("/admin_checking")
 
 
 def admin_checking_delete(request, id):
-    delete_checking(id)
+    if request.user.is_authenticated:
+        if request.method == "POST":
+           if delete_checking(id) == -1:
+               return render(request, '500.html')
     return redirect("/admin_checking")
 
 
 def admin_checking_update(request, id):
-    name = request.POST['name']
-    category = request.POST['category']
-    job = request.POST['job']
-    position = request.POST['position']
-    region = request.POST['region']
-    isPretender = request.POST['isPretender']
-    solution = request.POST['solution']
-    date_accept_ban = request.POST['date_accept_ban']
-    date_refuse_ban = request.POST['date_refuse_ban']
-    resolution = request.POST['resolution']
-
-    update_checking_with_person(id, name, category, job, position, region, solution, resolution, date_refuse_ban, date_accept_ban, isPretender)
-
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            name = request.POST['name']
+            category = request.POST['category']
+            job = request.POST['job']
+            position = request.POST['position']
+            region = request.POST['region']
+            isPretender = request.POST['isPretender']
+            solution = request.POST['solution']
+            date_accept_ban = request.POST['date_accept_ban']
+            date_refuse_ban = request.POST['date_refuse_ban']
+            resolution = request.POST['resolution']
+            if update_checking_with_person(id, name, category, job, position, region, solution, resolution,
+                                        date_refuse_ban,
+                                        date_accept_ban, isPretender) == -1:
+                return render(request, '500.html')
+    else:
+        return render(request, '401.html')
     return redirect("/admin_checking")
 
 
 def admin_checking_move(request, id):
-    result = request.POST['result']
-    ban_time = request.POST['ban_time']
-    move_checking(id, result, ban_time)
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            result = request.POST['result']
+            ban_time = request.POST['ban_time']
+            if move_checking(id, result, ban_time) == -1:
+                return render(request, "500.html")
     return redirect("/admin_checking")
 
 
@@ -243,42 +259,52 @@ def admin_register(request):
 
         return render(request, 'admin_register.html', locals())
     else:
-        return HttpResponse("Малувато прав")
+        return render(request, '401.html')
 
 
 def admin_register_add(request):
-
-    if request.method == "POST":
-        name = request.POST['name']
-        category = request.POST['category']
-        job = request.POST['job']
-        position = request.POST['position']
-        region = request.POST['region']
-        isPretender = request.POST['isPretender']
-        result = request.POST['result']
-        ban_time = request.POST['ban_time']
-
-        add_new_register(add_new_person(name, category, job, position, region, isPretender), result, ban_time)
-
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            name = request.POST['name']
+            category = request.POST['category']
+            job = request.POST['job']
+            position = request.POST['position']
+            region = request.POST['region']
+            isPretender = request.POST['isPretender']
+            result = request.POST['result']
+            ban_time = request.POST['ban_time']
+            if add_new_register(add_new_person(name, category, job, position, region, isPretender), result, ban_time) == -1:
+                return render(request, '500.html')
+    else:
+        return render(request, '401.html')
     return redirect("/admin_register")
 
 
 def admin_register_delete(request, id):
-    delete_register(id)
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            if delete_register(id) == -1:
+                return render(request, '500.html')
+    else:
+        return render(request, '401.html')
     return redirect("/admin_register")
 
 
 def admin_register_update(request, id):
-    name = request.POST['name']
-    category = request.POST['category']
-    job = request.POST['job']
-    position = request.POST['position']
-    region = request.POST['region']
-    isPretender = request.POST['isPretender']
-    result = request.POST['result']
-    ban_time = request.POST['ban_time']
-    update_register_with_person(id,name,category,job,position,region,result,ban_time,isPretender)
-
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            name = request.POST['name']
+            category = request.POST['category']
+            job = request.POST['job']
+            position = request.POST['position']
+            region = request.POST['region']
+            isPretender = request.POST['isPretender']
+            result = request.POST['result']
+            ban_time = request.POST['ban_time']
+            if update_register_with_person(id, name, category, job, position, region, result, ban_time, isPretender) == -1:
+                return render(request, '500.html')
+    else:
+        return render(request, '401.html')
     return redirect("/admin_register")
 
 
@@ -311,62 +337,67 @@ def admin_users(request):
 
         return render(request, 'admin_users.html', locals())
     else:
-        return HttpResponse("Малувато прав")
+        return render(request, '401.html')
 
 
 def admin_users_admin_deadmin(request, username):
-    if request.method == "POST":
-        try:
-            u = User.objects.get(username=username)
-            if u.is_superuser:
-                u.is_superuser = False
-            else:
-                u.is_superuser = True
-            u.save()
+    user = request.user
+    if request.user.is_authenticated and request.user.is_superuser:
+        if request.method == "POST":
+            try:
+                u = User.objects.get(username=username)
+                if u.is_superuser:
+                    u.is_superuser = False
+                else:
+                    u.is_superuser = True
+                u.save()
+                auth.logout(request)
+                auth.login(request, user)
 
-        except User.DoesNotExist:
-            print("User does not exist")
+            except User.DoesNotExist:
+                print("User does not exist")
+                return render(request, '404.html')
+    else:
+        return render(request, '401.html')
     return redirect("/admin_users")
 
 
 def admin_users_ban_deban(request, username):
-    if request.method == "POST":
-        try:
-            u = User.objects.get(username=username)
-            if u.is_active:
-                u.is_active = False
-            else:
-                u.is_active = True
-            u.save()
+    if request.user.is_authenticated and request.user.is_superuser:
+        if request.method == "POST":
+            try:
+                u = User.objects.get(username=username)
+                if u.is_active:
+                    u.is_active = False
+                else:
+                    u.is_active = True
+                u.save()
 
-        except User.DoesNotExist:
-            print("User does not exist")
+            except User.DoesNotExist:
+                print("User does not exist")
+                return render(request, '404.html')
+    else:
+        return render(request, '401.html')
     return redirect("/admin_users")
 
 
 def admin_users_delete(request, username):
-    if request.method == "POST":
-        try:
-            u = User.objects.get(username=username)
-            u.delete()
-            print("The user is deleted")
-        except User.DoesNotExist:
-            print("User does not exist")
+    if request.user.is_authenticated and request.user.is_superuser:
+        if request.method == "POST":
+            try:
+                u = User.objects.get(username=username)
+                u.delete()
+                print("The user is deleted")
+            except User.DoesNotExist:
+                print("User does not exist")
+                return render(request, '404.html')
+    else:
+        return render(request, '401.html')
 
     return redirect("/admin_users")
 
 
-def error404(request):
-    template = loader.get_template('404.htm')
-    context = Context({
-        'message': 'All: %s' % request,
-        })
-    return HttpResponse(content=template.render(context), content_type='text/html; charset=utf-8', status=404)
 
 
-def error500(request):
-    template = loader.get_template('500.htm')
-    context = Context({
-        'message': 'All: %s' % request,
-        })
-    return HttpResponse(content=template.render(context), content_type='text/html; charset=utf-8', status=500)
+
+

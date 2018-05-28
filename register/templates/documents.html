@@ -33,19 +33,17 @@
 	</div>
      <div class="my-panel">
          {% if request.user.is_authenticated %}
-        <div class = "btn-group-vertical">
-        <br/>
-            <a href="/logout/" class="btn btn-primary btn-sm">
-              <span class="glyphicon glyphicon-log-out"></span> Вийти
-            </a>
-            <br/>
-            <a href="/admin_register/" class="btn btn-primary btn-sm">
-              <span class="glyphicon glyphicon-list-alt"></span> Редагування
-            </a>
-        </div>
 
+        <div class="btn-group-vertical">
+        <a href="/admin_register/" class="btn btn-primary btn-sm">
+          <span class="glyphicon glyphicon-list-alt"></span> Редагування
+        </a>
+        <a href="/logout/" class="btn btn-danger btn-sm">
+          <span class="glyphicon glyphicon-log-out"></span> Вийти
+        </a>
+        </div>
         {% else %}
-        <a href="/login/" class="btn btn-primary btn-sm">
+        <a href="/login/" class="btn btn-success btn-sm">
           <span class="glyphicon glyphicon-log-out"></span> Увійти
         </a>
         {% endif %}

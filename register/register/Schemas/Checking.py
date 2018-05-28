@@ -39,11 +39,11 @@ def add_new_checking(person, solution, resolution='-', date_refuse_ban='-', date
 
 
 def get_checking(this_id):
-    checking = Checking.objects.get(id=this_id)
-    if checking is None:
-        return -1
-    else:
-        return checking
+    try:
+        checking = Checking.objects.get(id=this_id)
+    except Checking.DoesNotExist:
+        checking = None
+    return checking
 
 
 def get_all_checking():
@@ -70,17 +70,25 @@ def update_checking(this_id, solution, resolution, date_refuse_ban, date_accept_
     if checking is None:
         return -1
 
-    if solution is not None:
+    if solution is not None and len(solution) < 240:
         checking[0].update(**{"set__solution": solution})
+    else:
+        return -1
 
-    if resolution is not None:
+    if resolution is not None and len(resolution) < 240:
         checking[0].update(**{"set__resolution": resolution})
+    else:
+        return -1
 
     if date_accept_ban is not None:
         checking[0].update(**{"set__date_refuse_ban": date_refuse_ban})
+    else:
+        return -1
 
     if date_refuse_ban is not None:
         checking[0].update(**{"set__date_accept_ban": date_accept_ban})
+    else:
+        return -1
 
     return 0
 
@@ -95,28 +103,36 @@ def update_checking_with_person(this_id, name, category, job, position, region, 
     if checking is None:
         return -1
 
-    update_person(checking.person_id.id, name, category, job, position, region, isPretender)
+    if update_person(checking.person_id.id, name, category, job, position, region, isPretender) == -1:
+        return -1
 
-    if solution is not None:
+    if solution is not None and len(solution) < 240:
         checking.update(**{"set__solution": solution})
+    else:
+        return -1
 
-    if resolution is not None:
+    if resolution is not None and len(solution) < 240:
         checking.update(**{"set__resolution": resolution})
+    else:
+        return -1
 
     if date_accept_ban is not None:
         checking.update(**{"set__date_refuse_ban": date_refuse_ban})
+    else:
+        return -1
 
     if date_refuse_ban is not None:
         checking.update(**{"set__date_accept_ban": date_accept_ban})
+    else:
+        return -1
 
     return 0
 
 
 def delete_checking(this_id):
-    checking = Checking.objects(id=this_id)[0]
-
+    checking = Checking.objects(id=this_id)
     if checking:
-        delete_person(checking.person_id.id)
+        delete_person(checking[0].person_id.id)
         checking.delete()
         return 0
     else:
@@ -124,11 +140,11 @@ def delete_checking(this_id):
 
 
 def move_checking(this_id, result, ban_time):
-    checking = Checking.objects(id=this_id)[0]
+    checking = Checking.objects(id=this_id)
 
     if checking:
-        add_new_register(checking.person_id, result, ban_time)
-        checking.delete()
+        add_new_register(checking[0].person_id, result, ban_time)
+        checking[0].delete()
         return 0
     else:
         return -1
